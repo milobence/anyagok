@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style/nyelvek.css">
+    <title>MySQL</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-xl navbar-dark navbar-bg">
+    <div class="container-fluid col-lg-8 col-md-10 col-sm-12">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <!--Az első négy gomb bal oldalra zárva - ezek külön ul-ben vannak-->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown"><a class="nav-link" href="html.html">HTML</a></li>
+          <li class="nav-item dropdown"><a class="nav-link" href="css.html">CSS</a></li>
+          <li class="nav-item dropdown"><a class="nav-link" href="js.html">JS</a></li>
+          <li class="nav-item dropdown"><a class="nav-link" href="ts.html">TS</a></li>
+          <li class="nav-item dropdown"><a class="nav-link active disabled" href="mysql.html">MySQL</a></li>
+          <li class="nav-item dropdown"><a class="nav-link" href="nodejs.html">NodeJS</a></li>
+          <li class="nav-item dropdown"><a class="nav-link" href="angular.html">Angular</a></li>
+        </ul>
+        <!--Az érdekességek lenyíló lista jobb oldalra zárva, ez is külön ul-ben van-->
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown04" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Érdekesség
+            </a>
+            <ul class="dropdown-menu dropdown-bg" aria-labelledby="navbarDropdown04">
+              
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="content-container" class="container-fluid col-lg-8 col-md-10 col-sm-12">
+    <div>
+        <h1>MySQL</h1>
+        <h2>Az oldal tartalma</h2>
+        <ol>
+            <li><a href="#kezdetek">A kezdetek</a></li>
+            <li><a href="#adatbazisok">Adatbázisok, SQL, MySQL</a></li>
+            <li><a href="#tablazatok">Táblázatok</a></li>
+            <li><a href="#tablazat-keszitese">Táblázat készítése és alapkulcsszavak</a></li>
+            <li><a href="#null">NOT vs NOT NULL, default érték</a></li>
+            <li><a href="#primary-keys">Kulcsok - Primary Keys</a></li>
+            <li><a href="#crud">CRUD</a></li>
+            <li><a href="#sql-programok">SQL programok írása</a></li>
+            <li><a href="#string-functions">MySQL string függvények</a></li>
+            <li><a href="#finomitas">A lekérdezett adatok finomítása</a></li>
+            <li><a href="#aggregate">Összegző (aggregate) függvények és adatok csoportosítása</a></li>
+            <li><a href="#adattipusok">Adattípusok áttekintése</a></li>
+            <li><a href="#date-maths">Dátumok formázása és a "dátum matek"</a></li>
+            <li><a href="#logical-operators">Logikai operátorok</a></li>
+        </ol>
+    </div>
+
+    <div id="kezdetek">
+      <h2>A kezdetek</h2>
+      <p>SELECT * - minden rekord kiválasztása</p>
+      <p>SELECT * FROM customers - minden rekord kiválasztása a customers adatbázisból</p>
+      <p>ORDER BY Price DESC - Price szerint csökkenő sorrendbe (DESC) rendezzük az adatbázis rekordjait</p>
+      <p>A kulcsszavak sorrendje:</p>
+      <ol>
+        <li>SELECT</li>
+        <li>FROM</li>
+        <li>WHERE</li>
+        <li>GROUP BY</li>
+        <li>HAVING</li>
+        <li>ORDER BY</li>
+      </ol>
+    </div>
+
+    <div id="adatbazisok">
+      <h2>Adatbázisok, SQL, MySQL</h2>
+      <p>Database management system (DBMS) - különböző szoftverek, amik segítségével adatbázisokat tudunk kezelni!</p>
+      <p>database - a structured set of computerized data with an accessible interface</p>
+      <p>SQL - structured query languages</p>
+      <p>Az SQL-lel az adatbázissal kommunikálunk, míg a MySQL segítségével tudjuk az adatbázist változtatni</p>
+    </div>
+
+    <div id="tablazatok">
+      <h2>Táblázatok</h2>
+      <p>A táblázatok tetejét fejlécnek (header) nevezzük, ezekkel tudjuk megadni, hogy az adott oszlopban milyen adatok találhatóak meg (név, kor, nem stb.)</p>
+      <p>Minden sorhoz 1-1 adat tartozik.</p>
+      <p>Az adatbázisok táblázatok sokaságából áll.</p>
+      <p>Rengeteg <a href="#adattipusok">adattípus</a> létezik, ezek közül kettő legfontosabb: INT (Numeric), VARCHAR (String)</p>
+      <p>INT: Egész szám.</p>
+      <p>VARCHAR: Különböző hosszúságú stringeket tudunk megadni, a hossza 1 és 255 között lehet. Zárójelben meg kell adni a maximum karakterhosszúságot. Pl.: varchar(100)</p>
+    </div>
+
+    <div id="tablazat-keszitese">
+      <h2>Táblázat készítése és alapkulcsszavak</h2>
+      <p>Először adatbázist kell létrehozni (ha még nincs), a CREATE DATABASE kulcsszó segítségével (az adatbázis neve nem állhat több szóból, ha több szót szeretnénk neki adni, használjuk a "snake_caset" vagy a "camelCaset").</p>
+      <p>Utána a USE kulcsszó megadása után meg kell adni azt az adatbázist, amiben dolgozni szeretnénk.</p>
+      <p>Ezek után lehet CREATE TABLE segítségével táblát létrehozni, ahol meg kell adni a tábla nevét és az összes mezőt a tulajdonságaikkal, ezeket vesszővel elválasztva.</p>
+      <p>Az összes adatbázist a SHOW DATABASES-zel tudjuk lekérdezni. Az aktív adatbázisokat a SELECT DATABASE()-szel tudjuk lekérdezni, míg az adatbázisban található táblázatokat a SHOW TABLES kulcsszóval tudjuk lekérdezni.</p>
+      <p>Egy adott tábla adataihoz a DESC kulcsszót kell használni.</p>
+      <p>A SELECT DATABASE() kivételével minden kulcsszó után egy specifikus adatbázis/tábla nevet meg kell adni!</p>
+      <p>DROP DATABASE/TABLE kulcsszavakkal adatbázist és táblázatot tudunk törölni, de vigyázni kell ezzel, mert a törlés végleges!</p>
+      <p>Táblázatba értéket az INSERT INTO kulcsszóval tudunk beilleszteni. Ezután meg kell adni a táblázat nevét és a mezőket, ahová adatot adunk meg, majd a VALUES kulcsszó után zárójelben, a megfelelő sorrendben és vesszővel elválasztva akár több adatot is meg tudunk adni.</p>
+      <p>A kódokra példa a <a href="#kodok">kódok</a> részben találhatóak.</p>
+    </div>
+
+    <div id="null">
+      <h2>NOT vs NOT NULL, default érték</h2>
+      <p>NULL - Az értékét nem ismerjük, nincs meghatározott értéke és nem ekvivalens a nullával.</p>
+      <p>1. eset: NULL és nincs default érték</p>
+      <img src="../img/mysql/Kép1.jpg" alt="">
+      <p>Ha valaminek nem adunk értéket a táblázatba hozzáadásnál, akkor az default NULL értéket kap.</p>
+      <img src="../img/mysql/Kép2.jpg" alt="">
+      <hr>
+      <p>2. eset: NOT NULL és nincs default érték</p>
+      <p>A NOT NULL megadásával elkerülhetjük a NULL értékeket.</p>
+      <p>NOT NULL megadásához a táblázat készítésekor meg kell adni az adattípus után, hogy NOT NULL.</p>
+      <img src="../img/mysql/Kép3.jpg" alt="">
+      <p>Amennyiben megadjuk a NOT NULL-t és valamihez nem rendelünk értéket, akkor az INT helyére 0 kerül, míg a VARCHAR helyére üres string.</p>
+      <img src="../img/mysql/Kép4.jpg" alt="">
+      <p>Ezt kikerülve meg kell adnunk egy default értéket.</p>
+      <hr>
+      <p>3. eset: NULL és van default érték</p>
+      <p>Default értéket úgy tudunk megadni, hogy az adattípus megadása után a DEFAULT kulcsszó után megadunk egy értéket (pl. DEFAULT 'unnamed').</p>
+      <img src="../img/mysql/Kép5.jpg" alt="">
+      <p>Ha valamihez nem rendelünk értéket, akkor automatikusan a default érték kerül megadásra.</p>
+      <img src="../img/mysql/Kép6.jpg" alt="">
+      <hr>
+      <p>4. eset: NOT NULL és van default érték</p>
+      <p>Nagyon hasonlít a 3. esethez, DE a 3. esetben tudunk manuálisan NULL értéket adni. Ha megadjuk, hogy NOT NULL a táblázat készítésénél, akkor egy NULL érték megadásánál errort kapunk.</p>
+      <img src="../img/mysql/Kép7.jpg" alt="">
+      <p>És ha NULL értéket szeretnénk beilleszteni a táblázatban, ezt kapjuk: <br>
+        ERROR 1048 (23000): Column 'age' cannot be null</p>
+      <p>Összességében a lényeg: Ha egy adat megadása kötelező, akkor NOT NULL, ha nem kötelező, akkor NULL</p>
+      <p>
+        Idézőjelek: Ha a szövegben ' található, akkor hibát kaphatunk. Ilyenkor a szövegünket vagy "" közé írjuk, vagy használjuk a \'-t.</p>
+    </div>
+
+    <div id="primary-keys">
+      <h2>Kulcsok - Primary Keys</h2>
+      <p>Előfordulhat az az eset, hogy több adathoz pontosan ugyanazokat a tulajdonságokat adjuk meg, például:</p>
+      <img src="../img/mysql/Kép8.jpg" alt="">
+      <p>Ez miért probléma? Alapvetően a fő cél az, hogy minden egyes adat az adatbázisban (és a táblákban) egyedi legyen, kerülni kell az azonos adatokat. Nincs arra lehetőség, hogy ezeket az adatokat elszeparáljuk és különbözőként tekintsünk rájuk.</p>
+      <p>Ezt a problémát úgy tudjuk kiküszöbölni, hogy minden egyes adatot egy egyedi ID-val látunk el.</p>
+      <p>Primary key - a unique identifier</p>
+      <p>Kulcsot úgy tudunk megadni, ha a táblázat készítésénél a PRIMARY KEY után zárójelben megadjuk, hogy melyik mező viselkedjen kulcsként. Vagy az adott mező végére írjuk oda, hogy PRIMARY KEY.</p>
+      <p>Ezután pedig minden egyes új adat bevitelekor az adatok mellé egy ID-t is meg tudunk adni, amiket nem tudunk duplikálni, mert errort kapunk.</p>
+      <img src="../img/mysql/Kép9.jpg" alt="">
+      <p>Amennyiben azt szeretnénk, hogy ez az ID folyamatosan növekedjen, a táblázat megadásakor meg kell adni az AUTO_INCREMENT-et is.</p>
+      <img src="../img/mysql/Kép10.jpg" alt="">
+    </div>
+
+    <div id="crud">
+      <h2>CRUD</h2>
+      <p>A négy legfontosabb művelet:</p>
+      <ul style="list-style: none;">
+        <li>Create - INSERT INTO</li>
+        <li>Read - Adatok kiolvasása</li>
+        <li>Update - Adatok frissítése</li>
+        <li>Delete - Adatok törlése</li>
+      </ul>
+      <h3>Read</h3>
+      <p>Hogyan tudjuk megkapni és megkeresni az adatokat?</p>
+      <p>*-gal az összes oszlopot visszakapjuk (vagyis a teljes táblát)</p>
+      <p>Ha csak bizonyos oszlopokat szeretnénk kiíratni, akkor a SELECT kulcsszó után a megfelelő oszlopneveket kell megadni vesszővel elválasztva (pl SELECT name, age). Az oszlopok sorrendje is az lesz, ahogy megadtuk őket a SELECT után.</p>
+      <p>Ált.: SELECT {mezok} FROM {tabla};</p>
+      <p>Például: SELECT name, age FROM cats;</p>
+      <img src="../img/mysql/Kép11.jpg" alt="">
+      <p>A WHERE kulcsszóval bizonyos feltételeket tudunk adni, amelyekkel tudjuk szűkíteni a visszaadandó adatok méretét, ezáltal sokkal specifikusabban tudjuk megadni a lekérdezést. A nagybetű/kisbetű nem számít.</p>
+      <p>Ált.: SELECT {mezok} FROM {tabla} WHERE {feltetel};</p>
+      <p>Például: SELECT * FROM cats WHERE age >= 5;</p>
+      <img src="../img/mysql/Kép12.jpg" alt="">
+      <p>Példa egy összetettebb lekérdezésre: <br>
+        SELECT name FROM cats WHERE age >= 5 AND breed = 'Maine Coon';</p>
+      <img src="../img/mysql/Kép13.jpg" alt="">
+      <p>ALIAS - AS kulcsszó, ezzel meg tudjuk adni, hogy az adott mező milyen néven jelenjen meg. Ez azért is nagyon fontos, mert ha több táblát kapcsolunk össze, amelyek ugyanazokkal a mezőnevekkel rendelkeznek (pl name), akkor abból kavarodás lehet. A több szóból álló aliast idézőjelek közé kell tenni.</p>
+      <p>Ált.: SELECT {mezo} AS {mezo_alias}, ... FROM {tabla};</p>
+      <p>Például: SELECT cat_id AS id, name FROM cats WHERE age > 3;</p>
+      <img src="../img/mysql/Kép14.jpg" alt="">
+      <p>És ahogy látható, a cat_id-ből id lett.</p>
+      <h3>Update</h3>
+      <p>Az adatok felülírása</p>
+      <p>UPDATE kulcsszó után meg kell adni a tábla nevét, majd egy SET kulcsszó után, hogy melyik mezőben szeretnénk módosítani és milyen értékre. Ezután a WHERE kulcsszóval meg kell adni a feltételt és az összes feltételt teljesítő rekordra módosítjuk a SET után megadott mezőt arra az értékre.</p>
+      <p>Érdemes az update előbb SELECT-tel kiválasztani a megváltozandó adatot vagy adatokat, hogyha esetleg rosszul updateltünk, akkor lássuk a hibát.</p>
+      <p>Ált.: UPDATE {tabla} SET {modositas} WHERE {feltetel};</p>
+      <p>Például: UPDATE cats SET breed='Shorthair' WHERE breed='Tabby';</p>
+      <img src="../img/mysql/Kép15.jpg" alt="">
+      <p>Ahogy látható, a Tabbyből Shorthair lett.</p>
+      <h3>Delete</h3>
+      <p>Adatok törlése.</p>
+      <p>DELETE kulcsszó után FROM kulcsszó, amit a táblanév követ, majd a WHERE kulcsszó után meg kell adni a feltételt, ami alapján adatot szeretnénk törölni. Törlés előtt célszerű SELECT-tel lekérdezni a törölni kívánt adatot, mert a törlést nem tudjuk visszavonni.</p>
+      <p>Ált.: DELETE FROM {tabla} WHERE {feltetel};</p>
+      <p>A feltétel nélküli DELETE az összes adatot kitörli a táblázatból. Van különbség eközött és a DROP TABLE között, ugyanis az előbbi az adatokat törli (de a táblázat megmarad), míg utóbbi a teljes táblát.</p>
+      <p>DELETE FROM cats WHERE age=4; <br>
+        DELETE FROM cats WHERE cat_id=age;</p>
+      <img src="../img/mysql/Kép16.jpg" alt="">
+    </div>
+
+    <div id="sql-programok">
+      <h2>SQL programok írása</h2>
+      <p>SQL programok kiterjesztése: .sql</p>
+      <p>ls-sel meg kell nézni, hogy látjuk-e az adott könyvtárban az .sql filet. Ha igen, akkor jó helyen járunk.</p>
+      <p>Terminalban a source + fájlnév megadása után tudunk SQL-t futtatni.</p>
+      <p><a href="https://www.w3schools.com/mysql/mysql_ref_functions.asp">MySQL függvények</a></p>
+    </div>
+
+    <div id="string-functions">
+      <h2>MySQL string függvények</h2>
+      <p>Főbb függvények:</p>
+      <ul style="list-style: none;">
+        <li>CONCAT</li>
+        <li>SUBSTRING</li>
+        <li>REPLACE</li>
+        <li>REVERSE</li>
+        <li>CHAR_LENGTH</li>
+        <li>UPPER</li>
+        <li>LOWER</li>
+      </ul>
+      <p>Ezeket a függvényeket csak SELECT-tel tudjuk alkalmazni, mert error-t kapunk.</p>
+      <h3>CONCAT</h3>
+      <p>Több szöveget egy szöveggé alakítunk</p>
+      <p>Ált.: CONCAT(x,y,z,...)</p>
+      <p>Ált.: CONCAT(column1, 'text', column2, 'text', ...)</p>
+      <p>A CONCAT függvényt a SELECT kulcsszó után tudjuk használni és ha mezőket szeretnénk összefűzni, akkor meg kell adni a tábla nevét is.</p>
+      <p>SELECT CONCAT(author_fname, ' ', author_lname) FROM books WHERE pages > 400;</p>
+      <img src="../img/mysql/Kép17.jpg" alt="">
+      <p>Ekkor egy elég hosszú és csúnya mezőnevet kapunk. Ezt elkerülve használjunk alias-t (AS kulcsszó)!</p>
+      <p>SELECT CONCAT(author_fname, ' ', author_lname) AS author FROM books WHERE pages > 400;</p>
+      <img src="../img/mysql/Kép18.jpg" alt="">
+      <p>Több mezőt is ki tudunk iratni természetesen úgy, hogy az egyik mezőt konkatenáljuk!</p>
+      <p>SELECT author_fname AS first, author_lname AS last, CONCAT(author_fname, ' ', author_lname) AS author FROM books WHERE pages > 400;</p>
+      <img src="../img/mysql/Kép19.jpg" alt="">
+      <p>De természetesen a CONCATOT feltételként is tudjuk alkalmazni.</p>
+      <p>SELECT title FROM books WHERE CONCAT(author_fname, ' ', author_lname)='Jhumpa Lahiri';</p>
+      <img src="../img/mysql/Kép20.jpg" alt="">
+      <p>CONCAT_WS - több szöveget egy szöveggé gyúrunk, az elején megadott elválasztó karakter minden mező között megjelenik</p>
+      <p>Ált.: CONCAT_WS(elv., x, y, z, ...)</p>
+      <p>SELECT CONCAT_WS(' - ', title, author_fname, author_lname) AS book FROM books WHERE pages > 400;</p>
+      <img src="../img/mysql/Kép21.jpg" alt="">
+      <h3>SUBSTRING</h3>
+      <p>A szöveg bizonyos részeit ki tudjuk vágni.</p>
+      <p>Például: SELECT SUBSTRING('Hello World', 1, 4);</p>
+      <img src="../img/mysql/Kép22.jpg" alt="">
+      <p>Ált.: SUBSTRING(string, x) - ebben az esetben az X. karaktertől kezdődően az összes karakter benne lesz a vágásban. Az x lehet negatív, ebben az esetben az utolsó x karaktert kapjuk vissza.</p>
+      <p>SELECT SUBSTRING('Hello World', -3);</p>
+      <img src="../img/mysql/Kép23.jpg" alt="">
+      <p><strong>A karakterek számolását 1-től kezdjük!</strong></p>
+      <p>Hasonlóan a CONCAT-hoz, a SUBSTRINGET is csak SELECT után tudjuk megadni, ha mezőkre hivatkozunk, ugyanúgy kell a FROM tablanev!</p>
+      <p>SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books WHERE pages > 350;</p>
+      <img src="../img/mysql/Kép24.jpg" alt="">
+      <p>Hasonlóan a CONCAT-hoz, a SUBSTRING-et is bele tudjuk építeni feltételbe.</p>
+      <p>SELECT title FROM books WHERE SUBSTRING(title, 1, 1)='A';</p>
+      <img src="../img/mysql/Kép25.jpg" alt="">
+      <p>Létezik a SUBSTRING-nek egy shortcut-ja, a SUBSTR, ami ugyanúgy működik, mint a hosszabb változata.</p>
+      <p>A CONCAT-ot és a SUBSTRING-et tudjuk kombinálni is:</p>
+      <p>SELECT CONCAT(SUBSTR(title, 1, 10), '...') AS 'short title' FROM books WHERE pages > 350;</p>
+      <img src="../img/mysql/Kép26.jpg" alt="">
+      <h3>REPLACE</h3>
+      <p>A szöveg egy részeit kicseréljük.</p>
+      <p>Ált.: REPLACE(szöveg, a cserélendő szövegrészlet, a helyettesített szövegrészlet)</p>
+      <p>Ugyanúgy, kell a SELECT, hogy tudjuk alkalmazni. <strong>A cserélendő szöveg érzékeny a kis- és nagybetűkre!</strong></p>
+      <p>Például: SELECT REPLACE(title, 'a', 4) AS a4 FROM books WHERE pages > 350;</p>
+      <img src="../img/mysql/Kép27.jpg" alt="">
+      <p>A REPLACE-t is tudjuk kombinálni a CONCAT-tal és a SUBSTRING-gel!</p>
+      <p>SELECT CONCAT(SUBSTRING(REPLACE(title, 'e', 3),1,10),'...') AS e3 FROM books WHERE pages > 350;</p>
+      <img src="../img/mysql/Kép28.jpg" alt="">
+      <h3>REVERSE</h3>
+      <p>Szövegek megfordítása</p>
+      <p>Ált.: REPLACE(string)</p>
+      <p>Szintén a SELECT után tudjuk megadni.</p>
+      <p>SELECT REVERSE(title) AS eltit FROM books WHERE pages > 350;</p>
+      <img src="../img/mysql/Kép29.jpg" alt="">
+      <p>Ugyanúgy tudjuk a többi függvénnyel kombinálni.</p>
+      <p>SELECT CONCAT(title, ' | ', REVERSE(title)) AS palindrome FROM books WHERE stock_quantity > 30 AND stock_quantity < 50;</p>
+      <img src="../img/mysql/Kép30.jpg" alt="">
+      <h3>CHAR_LENGTH</h3>
+      <p>Karakterhosszúsága egy stringnek</p>
+      <p>Ált.: CHAR_LENGTH(string)</p>
+      <p>Szintén SELECT kulcsszó kell a használatához.</p>
+      <p>SELECT CHAR_LENGTH(author_lname) AS last_length FROM books WHERE pages > 350;</p>
+      <img src="../img/mysql/Kép31.jpg" alt="">
+      <p>Használhatjuk szintén feltételként.</p>
+      <p>SELECT title, author_fname, author_lname FROM books WHERE CHAR_LENGTH(title) < 15;</p>
+      <img src="../img/mysql/Kép32.jpg" alt="">
+      <p>A CHAR_LENGTH-et is össze tudjuk kombinálni a többi string művelettel.</p>
+      <p>SELECT title, CHAR_LENGTH(CONCAT(author_fname, ' ', author_lname)) AS author_length FROM books WHERE pages > 350;</p>
+      <img src="../img/mysql/Kép33.jpg" alt="">
+      <h3>UPPER és LOWER</h3>
+      <p>Megváltoztatja az összes karaktert nagy- vagy kisbetűre.</p>
+      <p>Például: SELECT UPPER('Hello World') AS HELLO;</p>
+      <img src="../img/mysql/Kép34.jpg" alt="">
+      <p>SELECT LOWER('Hello World') AS hello;</p>
+      <img src="../img/mysql/Kép35.jpg" alt="">
+      <p>SELECT title, UPPER(CONCAT(author_fname, ' ', author_lname)) AS author_upperFROM books WHERE pages > 350;</p>
+      <img src="../img/mysql/Kép36.jpg" alt="">
+      <p>SELECT title, LOWER(CONCAT(author_fname, ' ', author_lname)) AS author_lower FROM books WHERE pages > 350;</p>
+      <img src="../img/mysql/Kép37.jpg" alt="">
+    </div>
+
+    <div id="finomitas">
+      <h2>A lekérdezett adatok finomítása</h2>
+      <ul style="list-style: none;">
+        <li>DISTINCT - duplikált adatok kiszűrése</li>
+        <li>ORDER BY - sorbarendezés</li>
+        <li>LIMIT - lekérdezés limitálása (és elcsúsztatása)</li>
+        <li>LIKE - keresés részszóra vagy bizonyos patternre</li>
+      </ul>
+      <h3>DISTINCT</h3>
+      <p>Ha egy adatból több található a táblában, akkor csak egyszer kapjuk vissza.</p>
+      <p>A SELECT kulcsszóval áll együtt és ugyanúgy történik a lekérdezés, mint "normális" esetben.</p>
+      <p>SELECT DISTINCT author_lname FROM books;</p>
+      <img src="../img/mysql/Kép38.jpg" alt="">
+      <p>Viszont a DISTINCT nem feltétlenül túl specifikus. Nem tudhatjuk, hogy több azonos vezetéknév nem takar-e például két különböző embert. Ennél sokkal specifikusabban kell megadni a szűkítést. Ha több mezőnevet is vissza szeretnénk kapni, akkor a DISTINCT adatonként az összes mezőre elvégzi a megegyező adatok szűrését, így ha például valakiknek azonos a vezetéknevük, de a keresztnevük nem, akkor nem kerülnek ki a lekérdezett adatok közül.</p>
+      <p>SELECT DISTINCT author_fname, author_lname FROM books;</p>
+      <img src="../img/mysql/Kép39.jpg" alt="">
+      <h3>ORDER BY</h3>
+      <p>Az eredmények sorbarendezése.</p>
+      <p>A sorbarendezés default növekvő sorrendben rendez, de meg tudjuk adni, hogy növekvő vagy csökkenő sorrendben legyenek-e az adataink. Ehhez az ASC és a DESC kulcsszavakra lesz szükségünk, amit a mező neve után kell megadni.</p>
+      <p>A sorbarendezés működik szövegre és számra egyaránt. Olyan mező alapján is sorba tudunk rendezni, amit nem íratunk ki.</p>
+      <p>SELECT DISTINCT author_fname, author_lname FROM books ORDER BY author_lname;</p>
+      <img src="../img/mysql/Kép40.jpg" alt="">
+      <p>Ha viszont az ORDER BY után számot írunk, nem mezőnevet, akkor aszerint a mező szerint rendezünk, amelyik az adott helyen áll a kiválasztott mezők között. A lenti példán például a 2. mező szerint rendezünk növekvő sorrendben.</p>
+      <p>SELECT title, author_fname, author_lname FROM books WHERE pages > 350 ORDER BY 2;</p>
+      <img src="../img/mysql/Kép41.jpg" alt="">
+      <p>Az ORDER BY után több mező nevét is meg tudjuk adni, ilyenkor mindig a legelső sorbarendezés hajtódik végre, utána a második és így tovább.</p>
+      <p>SELECT author_fname, author_lname FROM books ORDER BY author_lname ASC, author_fname DESC;</p>
+      <img src="../img/mysql/Kép42.jpg" alt="">
+      <p>(És természetesen ez utóbbi működik a számos módszerrel is!)</p>
+      <h3>LIMIT</h3>
+      <p>A kiírandó rekordok számát tudjuk ezzel korlátozni.</p>
+      <p>A LIMIT a lekérdezés legvégére kerül. A kulcsszó után egy számot kell írni, amellyel azt adjuk meg, hogy legfeljebb hány rekordot szeretnénk lekérdezni.</p>
+      <p>SELECT title FROM books LIMIT 5;</p>
+      <img src="../img/mysql/Kép43.jpg" alt="">
+      <p>Természetesen kicsit bonyolultabb lekérdezéseknél is tudjuk használni a LIMIT-et.</p>
+      <p>SELECT CONCAT(author_fname, ' ' , author_lname) AS author, title, released_year AS year FROM books WHERE pages > 150 ORDER BY released_year LIMIT 5;</p>
+      <img src="../img/mysql/Kép44.jpg" alt="">
+      <p>Van egy olyan megadási módja is a LIMIT-nek, hogy két számot írunk utána vesszővel elválasztva: az 1. az az eltolás mértéke (vagyis az első rekord, amit visszakapunk, 0-tól számolva), míg a második a limit lesz. Ha az x. sortól szeretnénk az összes eredményt kiíratni, akkor az első értéknek x-et, a második értéknek pedig egy hatalmas számot kell megadni.</p>
+      <p>A fenti példa úgy, hogy a LIMIT kulcsszó után 1,5-t adunk meg:</p>
+      <p>SELECT CONCAT(author_fname, ' ' , author_lname) AS author, title, released_year AS year FROM books WHERE pages > 150 ORDER BY released_year LIMIT 1,5;</p>
+      <img src="../img/mysql/Kép45.jpg" alt="">
+      <p>Látható, hogy az 1. rekord, amit visszakapunk az a másik lekérdezésnél a 2. volt.</p>
+      <h3>LIKE</h3>
+      <p>Bizonyos szövegrészletek keresése (például első karakter alapján).</p>
+      <p>Ált.: SELECT * FROM {tabla} WHERE {mezo} LIKE '%{valami}'; - az elején van egyezés</p>
+      <p>Ált.: SELECT * FROM {tabla} WHERE {mezo} LIKE '%{valami}%'; - bárhol megtalálható az általunk megadott részszó</p>
+      <p>Ált.: SELECT * FROM {tabla} WHERE {mezo} LIKE '%{valami}'; - a végén van egyezés</p>
+      <p>Ált.: SELECT * FROM {tabla} WHERE {mezo} LIKE '%{valami1}%{valami2}%...' - több szövegrészlet között bármilyen karakter állhat, akkor van egyezés, ha ez a pattern illeszkedik valamelyik rekord adott mezőjére</p>
+      <p>Ált.: SELECT * FROM {tabla} WHERE {mezo} LIKE '____' - az aláhúzás pontosan 1 karaktert jelöl, olyan hosszú rekordokat keresünk az adott mezőben, ami olyan hosszú, ahány aláhúzást adtunk meg</p>
+      <p><strong>(A % akármennyi karakter, míg az _ csak 1 karakter jelölése!)</strong></p>
+      <p>Nagyon fontos az, hogy a LIKE kulcsszó a WHERE-rel áll együtt méghozzá úgy, hogy a WHERE és a LIKE közé meg kell adni annak a mezőnek a nevét, ahol szeretnénk szövegrészletre keresni.</p>
+      <p>1. eset: SELECT title, author_fname, author_lname FROM books WHERE author_fname LIKE 'da%';</p>
+      <img src="../img/mysql/Kép46.jpg" alt="">
+      <p>Ahogy itt is látható, az összes olyan rekordot visszakaptuk, ahol az író keresztneve 'da'-val kezdődik.</p>
+      <p>2. eset: SELECT title, author_fname, author_lname FROM books WHERE author_fname LIKE '%da%';</p>
+      <img src="../img/mysql/Kép47.jpg" alt="">
+      <p>Ahogy itt is látható, az összes olyan rekordot visszakaptuk, ahol az író keresztnevében van 'da' részszó.</p>
+      <p>3. eset: SELECT title, author_fname, author_lname FROM books WHERE author_fname LIKE '%da';</p>
+      <img src="../img/mysql/Kép48.jpg" alt="">
+      <p>Ahogy itt is látható, az összes olyan rekordot visszakaptuk, ahol az író keresztneve 'da'-val végződik.</p>
+      <p>4. eset: SELECT title, author_fname, author_lname FROM books WHERE title LIKE '%the%a%';</p>
+      <img src="../img/mysql/Kép49.jpg" alt="">
+      <p>Ennél a példánál visszakaptuk az összes olyan könyvcímet, amiben megtalálható a %the%a% pattern.</p>
+      <p>SELECT title, author_fname, author_lname FROM books WHERE title LIKE '%the%a%no%';</p>
+      <img src="../img/mysql/Kép50.jpg" alt="">
+      <p>Ennél a példánál visszakaptuk az összes olyan könyvcímet, amiben megtalálható a %the%a%no% pattern.</p>
+      <p>5. eset: SELECT title, CONCAT(author_fname, ' ', author_lname) AS author, stock_quantity AS quantity FROM books WHERE stock_quantity LIKE '___' ORDER BY 3;</p>
+      <img src="../img/mysql/Kép51.jpg" alt="">
+      <p>Itt pedig minden olyan rekordot visszakaptunk, ahol a darabszám egy háromjegyű szám (mivel 3 aláhúzás van!)</p>
+      <p>De mi van abban az esetben ha a könyv címében % vagy _ van? A megoldás egyszerű: ha %-ra vagy _-ra keresünk, akkor az adott jel elé \-t kell tenni.</p>
+      <p>SELECT title, author_fname, author_lname FROM books WHERE title LIKE '%\%%';</p>
+      <img src="../img/mysql/Kép52.jpg" alt="">
+      <p>Megkaptuk ezzel az összes könyvet, amiben % van.</p>
+      <p>Ennél a pontnál a kódok megtalálhatóak a MySQL-ben elmentve.</p>
+    </div>
+
+    <div id="aggregate">
+      <h2>Összegző (aggregate) függvények és adatok csoportosítása</h2>
+      <ul style="list-style: none;">
+        <li>COUNT() - megszámlálás</li>
+        <li>GROUP BY - csoportosítás</li>
+        <li>MIN() - minimum</li>
+        <li>MAX() - maximum</li>
+        <li>SUM() - összeg</li>
+        <li>AVG() - átlag</li>
+      </ul>
+      <h3>COUNT</h3>
+      <p>Adatok összeszámolására való.</p>
+      <p>A COUNT kulcsszót közvetlenül a SELECT kulcsszó után kell megadni, majd zárójelben a megszámlálandó mező vagy mezők nevét kell megadni.</p>
+      <p>SELECT COUNT(author_fname) FROM books;</p>
+      <img src="../img/mysql/Kép53.jpg" alt="">
+      <p>Amennyiben csak az egyedi rekordokat szeretnénk összeszámolni, úgy a COUNT-on belül meg kell adni a DISTINCT kulcsszót, közvetlenül a megszámolandó mezőnév előtt.</p>
+      <p>SELECT COUNT(DISTINCT author_fname) FROM books;</p>
+      <img src="../img/mysql/Kép54.jpg" alt="">
+      <p>Természetesen lehetőségünk van COUNT-on belül bármelyik string függvényt is alkalmazni, például a CONCAT-ot, ha mondjuk azt szeretnénk, hogy hány író található az adatbázisban.</p>
+      <p>SELECT COUNT(DISTINCT CONCAT(author_fname, ' ', author_lname)) AS no_of_author FROM books;</p>
+      <img src="../img/mysql/Kép55.jpg" alt="">
+      <p>De ugyanez megadható CONCAT nélkül is:</p>
+      <p>SELECT COUNT(DISTINCT author_fname, author_lname) AS no_of_author FROM books;</p>
+      <img src="../img/mysql/Kép56.jpg" alt="">
+      <p>Az előbb látott LIKE-ot is kombinálhatjuk a COUNT-tal, ekkor azt a számot kapjuk meg, hogy hány rekord felel meg az általunk megadott patternnek.</p>
+      <p>SELECT COUNT(title) FROM books WHERE title LIKE "%the%";</p>
+      <img src="../img/mysql/Kép57.jpg" alt="">
+      <h3>GROUP BY</h3>
+      <p>Megegyező adatok csoportosítása egyetlen sorba.</p>
+      <p>A GROUP BY kulcsszót közvetlenül a WHERE kulcsszó után kell írni (amennyiben van), a GROUP BY után annak a mezőnek a nevét kell megadni, ami alapján szeretnénk csoportosítani. Általában az(oka)t a mező(ke)t szeretnénk lekérdezni, ami(k) alapján csoportosítunk és ez(ek) mellé valamelyik összegző függvényt is kell alkalmaznunk.</p>
+      <p>SELECT author_lname, COUNT(*) FROM books GROUP BY author_lname;</p>
+      <img src="../img/mysql/Kép58.jpg" alt="">
+      <p>Amennyiben viszont szeretnénk azt a problémát elkerülni, hogy például valakinek ugyanaz a vezetékneve, de más ember, akkor több mezőt is meg tudunk adni a GROUP BY-nál.</p>
+      <p>SELECT author_fname, author_lname, COUNT(*) FROM books GROUP BY author_fname, author_lname;</p>
+      <img src="../img/mysql/Kép59.jpg" alt="">
+      <p>Ekkor ugyanazt az eredményt kapjuk, mint az előbb, kiegészülve a keresztnevekkel. Ez így már egy sokkal specifikusabb csoportosítás!</p>
+      <h3>MIN és MAX</h3>
+      <p>Visszaadja a legkisebb/legnagyobb értéket</p>
+      <p>GROUP BY nélkül úgy adhatjuk meg őket, mint a COUNTOT: SELECT után jön a MIN/MAX és zárójelben annak a mezőnek a neve, ahol a minimumot keressük. Ez a két függvény működik szövegre is, ekkor az ABC-ben a legelőrébb/leghátrébb lévő szöveget kapjuk vissza.</p>
+      <p>SELECT MIN(released_year) FROM books;</p>
+      <img src="../img/mysql/Kép60.jpg" alt="">
+      <p>SELECT MAX(title) FROM books;</p>
+      <img src="../img/mysql/Kép61.jpg" alt="">
+      <p>Vannak problémák ezekkel a függvényekkel. Például ha kiíratjuk a legnagyobb oldalszámot és mellé a könyvcímet, akkor nem feltétlenül lesz egyezés.</p>
+      <p>SELECT MAX(pages), title FROM books;</p>
+      <img src="../img/mysql/Kép62.jpg" alt="">
+      <p>Való igaz, hogy a leghosszabb könyv 790 oldalas, de az nem a The Namesake, hanem a Software Engineering.</p>
+      <p>A probléma egyik lehetséges kiküszöbölése az úgynevezett subquery (allekérdezés) használata. Ez úgy működik, hogy a feltételben megadunk egy SELECT-et és ez a SELECT fog előbb végrehajtódni. Például:</p>
+      <p>SELECT pages, title FROM books WHERE pages = (SELECT MAX(pages) FROM books);</p>
+      <img src="../img/mysql/Kép63.jpg" alt="">
+      <p>Viszont ennél a nagy probléma az lehet, hogy nagy adatbázisra 2x futtatjuk le a lekérdezést, ami viszonylag időigényes.</p>
+      <p>SELECT author_fname, author_lname, MIN(released_year) FROM books GROUP BY author_fname, author_lname ORDER BY 2, 1;</p>
+      <img src="../img/mysql/Kép64.jpg" alt="">
+      <p>Ennél a lekérdezésnél az egyes írók legkorábbi művét kaptuk meg.</p>
+      <h3>SUM</h3>
+      <p>Összegzés.</p>
+      <p>Hasonlít a többi függvényhez: SELECT után tudjuk megadni és meg kell adni, hogy mely mezőket szeretnénk összegezni. Szövegekre is működik, csak semmi értelme alkalmazni.</p>
+      <p>SELECT SUM(pages) FROM books;</p>
+      <img src="../img/mysql/Kép65.jpg" alt="">
+      <p>SELECT author_fname, author_lname, SUM(pages) FROM books GROUP BY author_fname, author_lname ORDER BY 2, 1;</p>
+      <img src="../img/mysql/Kép66.jpg" alt="">
+      <p>Ennél a lekérdezésnél pedig egyes írók által írt művek össz oldalszámait kapjuk meg.</p>
+      <h3>AVG</h3>
+      <p>Átlagolás.</p>
+      <p>SELECT után adjuk meg, mint a társait és szintén meg kell adni, hogy mely mezőket szeretnénk átlagolni.</p>
+      <p>A számok decimálisak, a tizedesvessző után 4 számjegyet ír ki alapértelmezetten az SQL.</p>
+      <p>SELECT AVG(pages) FROM books;</p>
+      <img src="../img/mysql/Kép67.jpg" alt="">
+      <p>SELECT released_year, AVG(stock_quantity) FROM books GROUP BY released_year ORDER BY 1;</p>
+      <img src="../img/mysql/Kép68.jpg" alt="">
+      <p>Ezzel megkapjuk az átlagos raktáron lévő darabszámokat az azonos évben kiadott könyveket tekintve.</p>
+      <p>Összességében: a COUNT-ot leszámítva minden függvényhez egy megfelelő mezőt kell megadni, amin szeretnénk számításokat elvégezni. A GROUP BY-nál meg bizonyos szempontok szerint csoportosítunk.</p>
+    </div>
+
+    <div id="adattipusok">
+      <h2>Adattípusok áttekintése</h2>
+      <p>Újabb adattípusok:</p>
+      <ul style="list-style: none;">
+        <li>CHAR - karaktertípus, fix memóriafelhasználással</li>
+        <li>DECIMAL(x,y) - tizedes tört x számjeggyel, y tizedesjeggyel</li>
+        <li>FLOAT - tizedestört, 7 számjegyig jó</li>
+        <li>DOUBLE - tizedestört, 15 számjegyig jó</li>
+        <li>DATE - dátum 'YYYY-MM-DD'</li>
+        <li>TIME - idő 'HH:MM:SS'</li>
+        <li>DATETIME - dátum + idő 'YYYY-MM-DD HH:MM:SS'</li>
+        <li>TIMESTAMPS - dátum + idő</li>
+        <li>CURDATE() - mai dátum</li>
+        <li>CURTIME() - pontos idő</li>
+        <li>NOW() - mai dátum + pontos idő</li>
+        <li>DAY() - nap</li>
+        <li>DAYNAME() - nap neve</li>
+        <li>DAYOFWEEK() - hányadik nap a héten az adott nap</li>
+        <li>DAYOFYEAR() - hányadik nap az évben az adott nap</li>
+        <li>MONTH() - hónap</li>
+        <li>MONTHNAME() - hónap neve</li>
+        <li>YEAR() - év</li>
+        <li>HOUR() - óra</li>
+        <li>MINUTE() - perc</li>
+        <li>SECOND() - másodperc</li>
+        <li>DATE_FORMAT() - dátumok visszaadása formázva</li>
+        <li>DATEDIFF() - különbség dátumok között</li>
+        <li>DATE_ADD() - dátumok összeadása</li>
+      </ul>
+      <h3>CHAR ÉS VARCHAR</h3>
+      <p>Ezek szövegek tárolására alkalmasak, ahol a karakterek hosszának 0 és 255 közötti értéket tudunk megadni. A különbség kettő között az, hogy a CHAR rendelkezik egy fix hosszúsággal. Ez azt jelenti, hogyha mondjuk 5-t adunk meg hosszúságnak, akkor a hosszabb szövegeket levágja, a rövidebb szövegeket pedig szóközökkel egészíti ki. Viszont ha a szöveget le szeretnénk kérdezni, akkor a helykitöltő szóközök eltűnnek. Az előnye: a CHAR-t gyorsabban lehet használni fix hosszúságú szövegekhez. A lényegi különbség a lefoglalt tárhelyekben van: míg a CHAR fix byte-nyi területet foglal el, addig a VARCHAR által felhasznált byte-ok a szöveg méretétől függően változnak (szöveg hossza + 1).</p>
+      <p>Éppen ezért a nagyobb adatbázisoknál célszerű VARCHAR-t használni.</p>
+      <h3>DECIMAL</h3>
+      <p>Tizedestörtek kiíratására alkalmas adattípus. Amikor ezt adjuk meg a mező típusának, akkor 2 paramétert kell neki megadni: az első paraméter a szám hossza (amiben a tizedesvessző előtti és utáni számok is benne vannak!), a második pedig, hogy hány számjegy áll a tizedestört után. Például a DECIMAL(5,2)-nél a 999.99-et még el tudjuk tárolni. Fontos: első számnak 1 és 65, míg a másodiknak 0 és 30 közöttnek kell lennie és a 2. szám nem lehet nagyobb, mint az első (nyilván).</p>
+      <p>A tizedesvessző utáni valahány szám akkor is kiírásra kerül, ha nem adjuk meg azokat. Például ha 2. paraméternek 2-t adunk meg, akkor a 7 7.00, míg a 2.1 2.10 formában fog megjelenni.</p>
+      <p>Ha túl nagy számot adunk meg, például a DECIMAL(5,2)-nél 7696325-t, akkor 999.99-et kapunk vissza, vagyis a lehető legnagyobb számot, ami megfelel az adattípusnak.</p>
+      <p>Ha a tizedesvessző után több számot adunk meg, mint amennyit definiáltunk, akkor automatikusan kerekít a program. Például DECIMAL(5,2)-nál 2.5762 esetén 2.58-t kapunk vissza.</p>
+      <h3>FLOAT, DOUBLE</h3>
+      <p>Lényegi különbség nincs ekettő és a DECIMAL között, mind a három tizedes törteket tárol. A lényeges különbség a felhasznált memóriában van: a FLOAT és a DOUBLE kevesebb memóriát használ, de ennek ára van, méghozzá az, hogy e kettő adattípus kevésbé precíz.</p>
+      <img src="../img/mysql/Kép69.jpg" alt="">
+      <p>Ahogy látható is, a FLOAT 7 számjegyet, míg a DOUBLE 15 számjegyet képes precízen tárolni.</p>
+      <p>Néhány példa: a FLOAT a 8877665544.45-ből 8877670000-t csinál.</p>
+      <p>Szóval inkább célszerűbb DOUBLE-t használni.</p>
+      <p>Viszont ha fontos a precizitás, használjunk DECIMALT!</p>
+      <h3>DATE, TIME, DATETIME</h3>
+      <p>DATE - csak dátumot tároló adattípus. Formátuma: 'YYYY-MM-DD'</p>
+      <p>TIME - csak időt tároló adattípus. Formátuma: 'HH:MM:SS'</p>
+      <p>DATETIME - dátumot és időt tároló adattípus. Formátuma: 'YYYY-MM-DD HH:MM:SS'</p>
+      <p>Például:</p>
+      <img src="../img/mysql/Kép70.jpg" alt="">
+      <h3>CURDATE, CURTIME, NOW</h3>
+      <p>A CURDATE a jelenlegi dátumot, a CURTIME a pontos időt, míg a NOW a jelenlegi dátumot adja vissza a pontos idővel.</p>
+      <p>Ezek függvények, így a kulcsszavak után ki kell tenni a ()-t! Lekérdezni a SELECT-tel tudjuk őket.</p>
+      <p>Vagy akár be is illeszthetjük a táblába az alábbiak szerint: VALUES ('Most', CURDATE(), CURTIME(), NOW())</p>
+      <h3>TIMESTAMPS</h3>
+      <p>A TIMESTAMP hasonló típusú, mint a DATETIME, de van néhány különbség közöttük.</p>
+      <ol>
+        <li>A DATETIME adattípus 1000-01-01 00:00:00 és 9999-12-31 23:59:59 között, míg a TIMESTAMP csak 1970-01-01 00:00:01 és 2038-01-19 03:14:07 között képes dátumot tárolni.</li>
+        <li>A DATETIME típusú adatok 8, míg a TIMESTAMP típusúak 4 byte-ot foglalnak el.</li>
+      </ol>
+      <p>Érdemes akkor használni a TIMESTAMP-et, ha tudjuk, hogy ezen rangen belül tudunk maradni, illetve azt szeretnénk meghatározni, hogy egy meta-adat mikor keletkezett vagy frissült.</p>
+      <p>Tudjuk automatikusan is updatelni a megadott időt, ehhez az ON UPDATE CURRENT_TIMESTAMP-re lesz szükségünk. Ekkor minden UPDATE-kor automatikusan felülírásra kerül a dátum a pontos időre.</p>
+      <img src="../img/mysql/Kép71.jpg" alt="">
+      <p>CURRENT_TIMESTAMP = NOW().</p>
+    </div>
+
+    <div id="date-maths">
+      <h2>Dátumok formázása és a "dátum matek"</h2>
+      <ul style="list-style: none;">
+        <li>DAY() - a dátumban szereplő nap (pl 2022-10-11 esetében 11)</li>
+        <li>DAYNAME() - az adott nap neve (2022-10-11 esetében kedd)</li>
+        <li>DAYOFWEEK() - az adott nap hányadik a héten (2022-10-11 esetében 3)</li>
+        <li>DAYOFYEAR() - az adott nap hányadik az évben (2022-10-11 esetében 284)</li>
+      </ul>
+      <p>Ezeket lekérdezhetjük időre is, csak semmi értelme, ugyanis az idő nem tárol semmilyen információt a napra vonatkozólag!</p>
+      <p>Hónapra és évre vonatkozó függvények:</p>
+      <ul style="list-style: none;">
+        <li>MONTH() - a hónap sorszámát adja vissza</li>
+        <li>MONTHNAME() - a hónap nevét adja vissza</li>
+        <li>YEAR() - az adott évet adja vissza</li>
+      </ul>
+      <p>Időre vonatkozó függvények:</p>
+      <ul style="list-style: none;">
+        <li>HOUR() - az órát adja vissza</li>
+        <li>MINUTE() - a percet adja vissza</li>
+        <li>SECOND() - a másodpercet adja vissza</li>
+      </ul>
+      <p><strong>EZEK MIND MŰKÖDNEK DATETIME-RA IS!</strong></p>
+      <p>Egyszerűbb megoldás:</p>
+      <p>DATE_FORMAT(datum, formatum)</p>
+      <p>pl: DATE_FORMAT('2008-02-23', '%Y %M %D)</p>
+      <p>DATE_FORMAT(birthdt, 'Was born on a %W')</p>
+      <p>DATE_FORMAT(birthdt, '%m/%d/%Y at %H:%i')</p>
+      <p>A teljes lista elérhető <a href="https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html#function_date-format">itt.</a></p>
+      <h3>Dátum matek: DATEDIFF és DATE_ADD</h3>
+      <p>DATEDIFF(datum1, datum2), az eredmény: datum1-datum2 napokban</p>
+      <p>DATE_ADD(datum1, INTERVAL expr unit): datum1 + INT unit</p>
+      <p>SELECT datum1 + INTERVAL expr unit;</p>
+      <p>SELECT datum1 - INTERVAL expr unit;</p>
+    </div>
+
+    <div id="logical-operators">
+      <h2>Logikai operátorok</h2>
+      <ul style="list-style: none;">
+        <li>!=</li>
+        <li>NOT LIKE</li>
+        <li>></li>
+        <li>>=</li>
+        <li><</li>
+        <li><=</li>
+        <li>BETWEEN, NOT BETWEEN</li>
+        <li>IN, NOT IN</li>
+      </ul>
+      <h3>Not equal</h3>
+      <p>Nem egyenlő.</p>
+      <p>Jelölése: !=</p>
+      <p>WHERE-ben lévő feltételt tudjuk vele tagadni</p>
+      <p>Pl.: WHERE released_year != 2007</p>
+      <h3>Not like</h3>
+      <p>Jelölése: NOT LIKE</p>
+      <p>Azokat a rekordokat kapjuk vissza, amelyek nem illeszkednek az általunk megadott patternra.</p>
+      <p>Pl.: WHERE title NOT LIKE "%the%"</p>
+      <h3>Greater than</h3>
+      <p>Nagyobb mint</p>
+      <p>Jelölése: ></p>
+      <h3>Greater Than or Equal To</h3>
+      <p>Nagyobb vagy egyenlő</p>
+      <p>Jelölése: >=</p>
+      <p>Azokat a rekordokat kapjuk vissza, amik vagy nagyobbak vagy nagyobb vagy egyenlőek, mint az általunk megadott érték (WHERE-ben).</p>
+      <p>Van értelme annak is, ha SELECT után írunk egy összehasonlítást, az eredmény 1, ha igaz és 0, ha hamis (például: 99 > 1, eredmény: 1).</p>
+      <p>Nem érzékeny a kis-/nagybetűkre!</p>
+      <p>Pl.: WHERE released_year >= 2001</p>
+      <h3>Lesser Than</h3>
+      <p>Kisebb mint</p>
+      <p>Jelölése: <</p>
+      <h3>Lesser Than or Equal To</h3>
+      <p>Kisebb vagy egyenlő</p>
+      <p>Jelölése: <=</p>
+      <p>Azokat a rekordokat kapjuk vissza, amik vagy kisebbek vagy kisebb vagy egyenlőek, mint az általunk megadott érték (WHERE-ben).</p>
+      <p>Ugyanúgy van értelme összehasonlítást írni a SELECT után, mint a másik esetben.</p>
+      <p>Pl.: Stock_quantity <= 100</p>
+      <h3>And</h3>
+      <p>Logikai és</p>
+      <p>Jelölése: AND vagy &&</p>
+      <p>Több feltételt tudunk vele összekapcsolni, amelynek az a lényege, hogy csak azokat a rekordokat kapjuk vissza, amelyre az ÖSSZES AND-del összekapcsolt feltétel teljesül.</p>
+      <p>Pl.: WHERE released_year > 2000 AND stock_quantity < 50</p>
+      <h3>Or</h3>
+      <p>Logikai vagy.</p>
+      <p>Jelölése: OR vagy ||</p>
+      <p>Több feltételt tudunk vele összekapcsolni, amelynek az a lényege, hogy az összes olyan rekordot visszakapjuk, amelyre teljesül LEGALÁBB EGY feltétel, amiket OR-ral kapcsolunk össze.</p>
+      <p>Pl.: WHERE released_year > 2000 OR stock_quantity < 50</p>
+      <p><strong>A logikai éssel és vaggyal komplexebb feltételeket is létre tudunk hozni, csak figyelni kell a helyes zárójelezésre!</strong></p>
+      <p>1. eset: WHERE (title LIKE '%the%' AND released_year < 2000) OR stock_quantity >= 100;</p>
+      <p>(1. feltétel: a könyv címében van 'the' és 2000 előtti <br>
+        2. feltétel: raktáron legalább 100 van a könyvből <br>
+        Ebből 1-nek kell teljesülnie - eredmény: 7 db könyv)</p>
+      <br>
+      <p>2. eset: WHERE title LIKE '%the%' AND (released_year < 2000 OR stock_quantity >= 100)</p>
+      <p>(Ugyanannak tűnhet, mint az előző, de máshogy van zárójelezve. Itt: <br>
+        1. feltétel: a könyv címében van 'the' <br>
+        2. feltétel: a könyv 2000 előtti vagy van belőle legalább 100 raktáron <br>
+        Itt mindkettőnek teljesülnie kell - eredmény: 2 db könyv)</p>
+      <h3>Between</h3>
+      <p>Két érték között.</p>
+      <p>A BETWEEN kulcsszó után 2 értéket kell megadni AND kulcsszóval elválasztva. Ekkor az összes olyan rekordot visszakapjuk, ami e két érték között található.</p>
+      <p>Pl.: WHERE pages BETWEEN 200 AND 500</p>
+      <p>A párja a NOT BETWEEN, az összes olyan rekordot visszaadja, ami nincs két érték között. Hasonlóan a kulcsszó után két értéket kell megadni, AND kulcsszóval összekötve.</p>
+      <p>Pl.: WHERE pages NOT BETWEEN 200 AND 500</p>
+      <p>Ha dátumokra vagy időre szeretnénk BETWEEN-t alkalmazni, akkor célszerű a CAST() függvény segítségével átalakítani a dátumot DATE, az időt TIME típusra, hogy pontosabb eredményt kapjuk. A CAST() függvény működése: CAST(dátum/idő AS DATE/TIME/DATETIME);</p>
+      <p>Pl.: WHERE birthdt BETWEEN CAST('1980-01-01' AS DATETIME) AND CAST('2022-10-12' AS DATETIME);</p>
+      <h3>IN, NOT IN</h3>
+      <p>Az IN és a NOT IN kulcsszavakhoz egy halmaz tartozik, melynek elemeit kerek zárójelek között kell megadni. Az IN kulcsszó esetében azokat a rekordokat kapjuk vissza, ahol egy adott mező értéke benne van az általunk megadott halmazban. A NOT IN-nel természetesen ennek a komplementerét kapjuk vissza.</p>
+      <p>Pl.: WHERE pages IN (208, 790, 400);</p>
+      <p>Pl.: WHERE released_year NOT IN (1997, 2001, 2007);</p>
+      <p>MOD (%) - modulo, osztási maradék vizsgálata (MOD 2 = 0 -> páros valami)</p>
+      <p>DIV (/) - egészosztás</p>
+      <p>SELECT title, released_year MOD 2 FROM books;</p>
+      <p>SELECT title, released_year DIV 2 FROM books;</p>
+      <h3>Elágazások</h3>
+      <p>Az elágazást a SELECT-en belül alkalmazhatjuk és ideiglenes új oszlopot vagy oszlopokat tudunk vele létrehozni. Az elágazás szintaxisa:</p>
+      <img src="../img/mysql/Kép72.jpg" alt="">
+      <p>CASE - elágazás kezdete</p>
+      <p>WHEN - a feltételünket tudjuk megadni</p>
+      <p>THEN - ha teljesül a feltétel, akkor mit kapjunk vissza</p>
+      <p>ELSE - ellenkező esetben mit kapunk vissza</p>
+      <p>END - milyen nevet kapjon ez az ideiglenes oszlop</p>
+      <p>Működése: mindig az első feltételt nézi meg, ha nem teljesül, akkor a másodikat nézi meg és így tovább.</p>
+      <p>Amennyiben egyik feltétel sem teljesül, úgy az ELSE ágon lévő értéket fogja felhasználni.</p>
+    </div>
+  </div>
+    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="index.js"></script>
+
+</body>
+</html>

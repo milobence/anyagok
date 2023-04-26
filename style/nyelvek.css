@@ -1,0 +1,82 @@
+body {
+    background-color: rgba(0,0,255,0.3);
+}
+
+/* Navbarhoz kiegészítő szabályok */
+
+.navbar-bg {
+    background-color: rgb(20,20,20);
+}
+
+.dropdown-bg {
+    background-color: rgb(20,20,20);
+}
+
+.dropdown-color {
+    color: rgba(255,255,255,.55);
+}
+
+/* A contenthez szabályok */
+
+#content-container {
+    background-color: #FFF;
+    padding: 0 1.5rem;
+}
+
+h1 {
+    padding-top: 3%;
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin: 3% 0 1%;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 2rem;
+    margin: 2% 0;
+}
+
+p {
+    text-align: justify;
+    line-height: 2;
+    margin: 0;
+}
+
+img {
+    display: block;
+    margin: 1vh auto;
+}
+
+/* táblázathoz szabályok */
+
+#elo-table {
+    margin: 3% auto;
+}
+
+.elo-table th, td {
+    border: 3px solid;
+    border-collapse: collapse;
+}
+
+/* lábjegyzet */
+
+footer {
+    background-color: rgb(20,20,20);
+    color: rgba(255,255,255,.55);
+    padding: 1% 0;
+}
+
+@media screen and (max-width: 992px) {
+    h2 {
+        margin-top: 12%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    img {
+        width: 75%;
+    }
+}
