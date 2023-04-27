@@ -1,0 +1,255 @@
+***********************************************************
+Kódrészletek - Lekérdezéssel kapcsolatos kódok
+***********************************************************
+-- adatbázisok lekérdezése
+SHOW DATABASES;
+
+-- aktív adatbázis(ok)
+SELECT database();
+
+-- adatbázis használása
+USE {db_name};
+
+-- táblázatok megmutatása
+SHOW TABLES;
+
+-- egy adott táblázatban található oszlopok megmutatása
+SHOW COLUMNS FROM tablename;
+DESC tablename;
+(ez a kettő ugyanazt csinálja)
+
+-- minden adat kiíratása
+SELECT * FROM cats;
+
+-- bizonyos mezők kiíratása
+Ált.: SELECT {mezok} FROM {tabla};
+SELECT name, age FROM cats;
+SELECT age, breed, name, cat_id FROM cats;
+
+-- aliasok
+Ált.: SELECT {mezo} AS {mezo_alias}, ... FROM {tabla};
+SELECT cat_id AS id, name FROM cats;
+SELECT name AS 'cat name', breed AS 'kitty breed' FROM cats;
+
+
+***********************************************************
+Kódrészletek - Adatbázis/táblák létrehozásával kapcsolatos kódok
+***********************************************************
+-- új adatbázis
+CREATE DATABASE {db_name};
+
+-- adatbázis törlése
+DROP DATABASE {db_name};
+
+-- táblázat készítése
+CREATE TABLE tablename
+  (
+    column_name data_type,
+    column_name data_type
+  );
+
+-- új táblázat not nullal
+CREATE TABLE tablename
+  (
+    column_name data_type NOT NULL,
+    column_name data_type NOT NULL
+  );
+
+-- új táblázat default valueval
+CREATE TABLE tablename
+  (
+    column_name data_type DEFAULT default_value,
+    column_name data_type DEFAULT default_value
+  );
+
+-- új táblázat default valueval és not nullal
+CREATE TABLE tablename
+  (
+    column_name data_type NOT NULL DEFAULT default_value,
+    column_name data_type NOT NULL DEFAULT default_value
+  );
+
+-- új táblázat primary key-jel
+CREATE TABLE tablename
+  (
+    id INT NOT NULL PRIMARY KEY,
+    column_name data_type,
+  );
+
+-- új táblázat auto_incrementtel
+CREATE TABLE tablename
+  (
+    id INT NOT NULL AUTO_INCREMENT,
+    column_name data_type,
+    PRIMARY KEY (id)
+  );
+
+-- táblázat törlése
+DROP TABLE tablename;
+
+***********************************************************
+Kódrészletek - Adatok létrehozása/módosítása
+***********************************************************
+
+-- adat beillesztése
+INSERT INTO {tablename}({column_name1}, {column_nanem2}, ...)
+VALUES ('Jetson', 7);
+
+-- több adat egyszerre
+INSERT INTO table_name 
+            (column_name, column_name) 
+VALUES      (value, value), 
+            (value, value), 
+            (value, value);
+
+-- adatok frissítése
+Ált.: UPDATE {tabla} SET {modositas} WHERE {feltetel};
+UPDATE cats SET breed='Shorthair' WHERE breed='Tabby';
+
+-- adat törlése
+Ált.: DELETE FROM {tabla} WHERE {feltetel};
+DELETE FROM cats WHERE name="Egg";
+
+-- warningok kiíratása (egyből a warning kiírása után kell)
+SHOW WARNINGS;
+
+
+***********************************************************
+Kódrészletek - Táblázat módosítása
+***********************************************************
+
+***********************************************************
+Kódrészletek - Stringekkel kapcsolatos kódok
+***********************************************************
+
+-- szövegek összefűzése
+Ált.: CONCAT(x,y,z)
+SELECT CONCAT(first, ' ', last) AS full FROM books;
+
+-- összefűzés elválasztó karakterekkel
+Ált.: CONCAT_WS(elv., x, y, z, ...)
+SELECT CONCAT_WS(' - ', title, first, last) AS book FROM books;
+
+-- szövegek vágása
+Ált.: SUBSTRING(string, x, y)
+
+-- szövegrészletek cseréle
+Ált.: REPLACE(string, a cserélendő szövegrészlet, a helyettesített szövegrészlet)
+
+-- szövegek megfordítása
+Ált.: REPLACE(string)
+
+-- karakterhosszúság
+Ált.: CHAR_LENGTH(string)
+
+-- nagybetűsítés
+UPPER(string)
+
+-- kisbetűsítés
+LOWER(string)
+
+***********************************************************
+Kódrészletek - Finomításokkal kapcsolatos kódok
+***********************************************************
+
+-- WHERE kulcsszó feltételek megadásához
+Ált.: SELECT {mezok} FROM {tabla} WHERE {feltetel};
+
+-- duplikátumok kiszűrése
+SELECT DISTINCT {mezok} FROM {tabla};
+
+-- sorbarendezés
+Ált.: SELECT {mezok} FROM {tabla} ORDER BY {mezonev/mezoszam}; 
+
+-- limitált kiíratás
+Ált.: SELECT {mezok} FROM {tabla} LIMIT db;
+Ált.: SELECT {mezok} FROM {tabla} LIMIT shift,db;
+
+***********************************************************
+Konkrét kódok
+***********************************************************
+
+###########################################################
+Táblázat készítése
+###########################################################
+
+Creating Your Own Tables Challenge
+CREATE TABLE pastries
+  (
+    name VARCHAR(50),
+    quantity INT
+  );
+ 
+SHOW TABLES;
+ 
+DESC pastries;
+ 
+DROP TABLE pastries;
+
+###########################################################
+Adatok beillesztése egy táblázatba (egy adat és több adat)
+###########################################################
+
+INSERT Challenge Solution Code
+CREATE TABLE people
+  (
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    age INT
+  );
+INSERT INTO people(first_name, last_name, age)
+VALUES ('Tina', 'Belcher', 13);
+INSERT INTO people(age, last_name, first_name)
+VALUES (42, 'Belcher', 'Bob');
+INSERT INTO people(first_name, last_name, age)
+VALUES('Linda', 'Belcher', 45)
+  ,('Phillip', 'Frond', 38)
+  ,('Calvin', 'Fischoeder', 70);
+DROP TABLE people; 
+
+SELECT * FROM people; 
+
+show tables;
+
+###########################################################
+Új táblázat not nullal és/vagy default valueval
+###########################################################
+Define a new cats2 table with NOT NULL constraints:
+CREATE TABLE cats2
+  (
+    name VARCHAR(100) NOT NULL,
+    age INT NOT NULL
+  );
+
+Define a table with a DEFAULT name specified:
+CREATE TABLE cats3
+  (
+    name VARCHAR(20) DEFAULT 'no name provided',
+    age INT DEFAULT 99
+  );
+
+Combine NOT NULL and DEFAULT:
+CREATE TABLE cats4
+  (
+    name VARCHAR(20) NOT NULL DEFAULT 'unnamed',
+    age INT NOT NULL DEFAULT 99
+  );
+
+###########################################################
+Új táblázat primary key-jel és auto_increment-tel
+###########################################################
+CREATE TABLE unique_cats2 (
+    cat_id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100),
+    age INT,
+    PRIMARY KEY (cat_id)
+);
+
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    middle_name VARCHAR(255),
+    age INT NOT NULL,
+    current_status VARCHAR(255) NOT NULL DEFAULT 'employed'
+);
