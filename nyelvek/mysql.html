@@ -45,6 +45,7 @@
         <h1>MySQL</h1>
         <h2>Az oldal tartalma</h2>
         <ol>
+            <li><a href="#kulcsszavak">Kulcsszavak</a></li>
             <li><a href="#kezdetek">A kezdetek</a></li>
             <li><a href="#adatbazisok">Adatbázisok, SQL, MySQL</a></li>
             <li><a href="#tablazatok">Táblázatok</a></li>
@@ -66,8 +67,717 @@
             <li><a href="#views">Táblák létrehozása (views)</a></li>
             <li><a href="#modes">Különböző módok (modes)</a></li>
             <li><a href="#windowfunctions">Ablakfüggvények</a></li>
-            <li><a href="#kulcsszavak">Kulcsszavak</a></li>
         </ol>
+    </div>
+
+    <div id="kulcsszavak">
+      <h2>Kulcsszavak</h2>
+      <h3>Létrehozással kapcsolatos kulcsszavak</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>CREATE DATABASE {név}</td>
+          <td>Adatbázis létrehozása.</td>
+          <td><a href="#tablazat-keszitese">[html]</a></td>
+        </tr>
+        <tr>
+          <td>SHOW DATABASES</td>
+          <td>Az összes adatbázis lekérdezése, ami a szerveren található.</td>
+          <td><a href="#tablazat-keszitese">[html]</a></td>
+        </tr>
+        <tr>
+          <td>SELECT DATABASE()</td>
+          <td>Aktív adatbázisok lekérdezése.</td>
+          <td><a href="#tablazat-keszitese">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DROP DATABASE {név}</td>
+          <td>Adatbázis törlése. A törlés végleges.</td>
+          <td><a href="#tablazat-keszitese">[html]</a></td>
+        </tr>
+        <tr>
+          <td>USE {név}</td>
+          <td>A USE után megadott adatbázisba lépünk, ez lesz az aktív adatbázisunk.</td>
+          <td><a href="#tablazat-keszitese">[html]</a></td>
+        </tr>
+        <tr>
+          <td>SHOW TABLES</td>
+          <td>Megmutatja az aktuális adatbázisban található összes táblát.</td>
+          <td><a href="#tablazat-keszitese">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DESC {név} vagy <br> SHOW COLUMNS FROM {név}</td>
+          <td>Egy általunk megadott tábláról kapunk információkat.</td>
+          <td><a href="#tablazat-keszitese">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DROP TABLE</td>
+          <td>Tábla törlése. A törlés végleges.</td>
+          <td><a href="#tablazat-keszitese">[html]</a></td>
+        </tr>
+        <tr>
+          <td>CREATE TABLE</td>
+          <td>Tábla létrehozása.</td>
+          <td><a href="#tablazat-keszitese">[html]</a></td>
+        </tr>
+        <tr>
+          <td>NULL</td>
+          <td>Default beállítás. Az értékét nem ismerjük, nincs meghatározott értéke és nem ekvivalens a nullával. Amennyiben ha rekordot adunk a táblához, és az egyik oszlopához nem rendelünk értéket, akkor automatikusan NULL érték kerül.</td>
+          <td><a href="#null">[html]</a></td>
+        </tr>
+        <tr>
+          <td>NOT NULL</td>
+          <td>A NOT NULL megadásával elkerülhetjük a NULL értékeket. Ha valamihez nem rendelünk értéket, akkor nem NULL érték jelenik meg, hanem az adott adattípusban a 0-val ekvivalens érték. Például VARCHAR-nál üres string, INT-nél 0.</td>
+          <td><a href="#null">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DEFAULT</td>
+          <td>Amennyiben a tábla készítésénél az egyik mezőhöz rendelünk default értéket, akkor a rekord megadásakor, ha valamihez nem írunk adatot, automatikusan a default érték kerül megadásra.</td>
+          <td><a href="#null">[html]</a></td>
+        </tr>
+        <tr>
+          <td>PRIMARY KEY</td>
+          <td>Egy kulcs, amely segítségünkre van abban, hogy egy bizonyos adat csak egyszer szerepeljen egy adott mezőben. Legtöbbször ID-khez rendeljük, mert azok, amik leginkább egyediek. A PRIMARY KEY-t rendelhetjük egy adott mezőhöz vagy a tábla létrehozásakor a legvégén is megadhatjuk, zárójelben, hogy melyik mezőt szeretnénk primary key-nek tekinteni. Csak egy lehet belőle egy táblában.</td>
+          <td><a href="#primary-keys">[html]</a></td>
+        </tr>
+        <tr>
+          <td>AUTO_INCREMENT</td>
+          <td>Bizonyos mező értékei minden újabb rekord létrehozásával emelkedik. Ezt is célszerű akkor használni, ha van ID mezőnk és célszerű együtt használni a primary key-el.</td>
+          <td><a href="#primary-keys">[html]</a></td>
+        </tr>
+        <tr>
+          <td>UNIQUE</td>
+          <td>Garantálja, hogy az adott mezőben minden érték csak egyszer forduljon elő. Hasonlít a Primary Keyhez, tulajdonképpen a primary key is rendelkezik a unique megszorítással. A különbség a kettő között az, hogy míg Primary Keyből csak 1 lehet táblánként, addig Uniqueból lehet több.</td>
+          <td><a href="#constraint">[html]</a><a href="https://www.w3schools.com/mysql/mysql_unique.asp">[w3]</a></td>
+        </tr>
+        <tr>
+          <td>CHECK</td>
+          <td>Egy feltétel, amellyel kontrollálni tudjuk, milyen rekordok kerüljenek be a táblába.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>CONSTRAINT</td>
+          <td>A CONSTRAINT kulccszó után tudjuk megadni a megszorításunkat, amelynek nevet is tudunk adni, így ha nem teljesül a feltétel, akkor a hibaüzenetben visszakapjuk, hogy miért nem teljesül. A CONSTRAINT a tábla létrehozásának végén szerepel.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>IF EXISTS</td>
+          <td>Annak ellenőrzésére szolgál, hogy egy adatbázis vagy egy tábla létezik-e. Amennyiben nem, úgy azt létrehozza, amennyiben igen, úgy nem történik semmi. Fontos szerepe van, ugyanis amennyiben kihagyjuk, és egy olyan adatbázist vagy táblát szeretnénk létrehozni, ami már létezik, akkor hibaüzenetet kapunk.</td>
+          <td></td>
+        </tr>
+      </table>
+
+      <h3>Táblák módosítása</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>ALTER TABLE</td>
+          <td>Táblákat az ALTER TABLE kulcsszó segítségével tudunk módosítani. Többféle módosítás lehetséges. Például: Oszlop hozzáadása, illetve elhagyása, átnevezés, oszlopok módosítása illetve megszorítások kötése.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>ADD COLUMN</td>
+          <td>Oszlop hozzáadása a már meglévő táblához.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DROP COLUMN</td>
+          <td>Oszlop elhagyása a már meglévő táblából.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>RENAME TABLE ... TO ...</td>
+          <td>Tábla átnevezése.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>ALTER TABLE ... RENAME TO ...</td>
+          <td>Tábla átnevezése.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>RENAME COLUMN ... TO ...</td>
+          <td>Oszlop átnevezése.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>MODIFY</td>
+          <td>Oszlop típusának megváltoztatása.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>CHANGE</td>
+          <td>Oszlop nevének és típusának megváltozatása.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>ADD CONSTRAINT</td>
+          <td>Megszorítás hozzáadása.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DROP CONSTRAINT</td>
+          <td>Megszorítás törlése.</td>
+          <td><a href="#constraint">[html]</a></td>
+        </tr>
+      </table>
+
+      <h3>CRUD kulcsszavak</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>INSERT INTO {table}({columns}) VALUES ({values})</td>
+          <td>Adatok hozzáadása a táblához.</td>
+          <td><a href="#crud">[html]</a></td>
+        </tr>
+        <tr>
+          <td>SELECT {mezok} FROM {tabla}</td>
+          <td>Adatok lekérdezése egy adott táblából. Ha a SELECT után * van, akkor az összes adatot megkapjuk, ha bizonyos mezőnév vagy mezőnevek, akkor az azokhoz a mezőkhöz tartozó adatokat kapjuk vissza.</td>
+          <td><a href="#crud">[html]</a></td>
+        </tr>
+        <tr>
+          <td>WHERE {feltetel}</td>
+          <td>Csak azokat az adatokat kapjuk vissza, amikre teljesül a feltétel.</td>
+          <td><a href="#crud">[html]</a></td>
+        </tr>
+        <tr>
+          <td>UPDATE {table} SET {column}={value} (+ feltétel)</td>
+          <td>Tábla bizonyos oszlopában található értékek frissítése, amennyiben az általunk megadott feltétel teljesül. Amennyiben nem adunk meg feltételt, úgy az adott oszlopban található összes érték frissülni fog.</td>
+          <td><a href="#crud">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DELETE FROM {table} (+ feltétel)</td>
+          <td>Azon rekordok törlése a táblából, amelyekre teljesül a feltétel. Amennyiben nem adunk meg feltételt, úgy az összes rekordot töröljük a táblából, de szemben a DROP TABLE-vel, maga a tábla megmarad, csak üres lesz.</td>
+          <td><a href="#crud">[html]</a></td>
+        </tr>
+      </table>
+
+      <h3>String függvények:</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>CONCAT</td>
+          <td>Több mező tartalmának összefűzése.</td>
+          <td><a href="#string-functions">[html]</a></td>
+        </tr>
+        <tr>
+          <td>CONCAT_WS</td>
+          <td>Több mező tartalmának összefűzése a megadott elválasztókarakterrel.</td>
+          <td><a href="#string-functions">[html]</a></td>
+        </tr>
+        <tr>
+          <td>SUBSTRING (SUBSTR)</td>
+          <td>Mező tartalmának levágása. Kétféleképp tudjuk használni: vagy két paramétert adunk meg neki vagy hármat (amiből az egyik a string, amit le akarunk vágni).</td>
+          <td><a href="#string-functions">[html]</a></td>
+        </tr>
+        <tr>
+          <td>REPLACE</td>
+          <td>A szöveg egy részeit kicseréljük másra.</td>
+          <td><a href="#string-functions">[html]</a></td>
+        </tr>
+        <tr>
+          <td>REVERSE</td>
+          <td>A szöveget megfordítjuk.</td>
+          <td><a href="#string-functions">[html]</a></td>
+        </tr>
+        <tr>
+          <td>CHAR_LENGTH</td>
+          <td>A szöveg hosszát kapjuk vissza.</td>
+          <td><a href="#string-functions">[html]</a></td>
+        </tr>
+        <tr>
+          <td>UPPER</td>
+          <td>A szöveget nagybetűsítjük.</td>
+          <td><a href="#string-functions">[html]</a></td>
+        </tr>
+        <tr>
+          <td>LOWER</td>
+          <td>A szöveget kisbetűsítjük.</td>
+          <td><a href="#string-functions">[html]</a></td>
+        </tr>
+      </table>
+
+      <h3>Finomítással kapcsolatos kulcsszavak:</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>DISTINCT</td>
+          <td>Minden duplikált adatból csak egyet kapunk vissza.</td>
+          <td><a href="#finomitas">[html]</a></td>
+        </tr>
+        <tr>
+          <td>ORDER BY</td>
+          <td>Az adatokat rendezzük vele sorba. Az ORDER BY az általunk írt lekérdezés végén áll. A kulcsszó után megadhatunk számot vagy mezőnevet, ami alapján szeretnénk, hogy a sorbarendezés megtörténjen. Amennyiben számot adunk meg, úgy aszerint a mező szerint rendezzük, amelyik azon a helyen áll a SELECT után, ahányadik számot megadtuk. Nem muszáj olyan mező szerint rendezni, amit lekérdezünk. Ha a szám vagy a mező után az ASC szót írjuk, akkor növekvő, ha a DESC szót írjuk, akkor csökkenő sorrendbe rendezünk. A default beállítás a növekvő, így az ASC-ot nem is szükséges kiírni.</td>
+          <td><a href="#finomitas">[html]</a></td>
+        </tr>
+        <tr>
+          <td>LIMIT</td>
+          <td>Leszűkítjük a lekérdezés során kapott adatok számát. Ezt is kétféleképpen tudjuk megadni: vagy egy számot adunk meg és akkor a legelső X találatot kapjuk vissza, vagy két számot (vesszővel elválasztva) és akkor eltolva kapunk vissza X találatot.</td>
+          <td><a href="#finomitas">[html]</a></td>
+        </tr>
+      </table>
+
+      <h3>Csoportosítással kapcsolatos kulcsszavak</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>GROUP BY</td>
+          <td>Bizonyos mezőben található adatok csoportosítása az értékük alapján.</td>
+          <td><a href="#aggregate">[html]</a></td>
+        </tr>
+        <tr>
+          <td>COUNT()</td>
+          <td>Adatok megszámolása. Ha a GROUP BY-jal használjuk együtt, akkor megszámoljuk, hogy egy csoporthoz mennyi adat tartozik.</td>
+          <td><a href="#aggregate">[html]</a></td>
+        </tr>
+        <tr>
+          <td>MIN()</td>
+          <td>A minimális értéket határozhatjuk meg vele. Ha a minimális érték mellé szeretnénk valamit kiíratni, akkor subqueryt kell használni, máskülönben pontatlan eredményt kapunk. GROUP BY-jal használva a csoport egy minimális értékét tudjuk meghatározni vele (például ha könyvek vannak, akkor a különböző írók legkorábbi könyvét).</td>
+          <td><a href="#aggregate">[html]</a></td>
+        </tr>
+        <tr>
+          <td>MAX()</td>
+          <td>A maximális értéket határozhatjuk meg vele. Ha a maximális érték mellé szeretnénk valamit kiíratni, akkor subqueryt kell használni, máskülönben pontatlan eredményt kapunk. GROUP BY-jal használva a csoport egy maximális értékét tudjuk meghatározni vele (például ha könyvek vannak, akkor a különböző írók legkésőbbi könyvét).</td>
+          <td><a href="#aggregate">[html]</a></td>
+        </tr>
+        <tr>
+          <td>SUBQUERIES</td>
+          <td>Amikor egy lekérdezésen belül szerepel egy másik lekérdezés, általában a feltételben. Minden esetben a belső lekérdezés hajtódik végre, az eredmény pedig egy tábla lesz még akkor is, ha csak 1 értéket kapunk meg. Viszont nem mindig ez a legjobb módszer, hisz ha egy nagy adathalmazzal rendelkező táblára több lekérdezést hajtunk végre, az rengeteg idő és memória. Így csak akkor használjuk, ha nincs más megoldás a feladat elvégzésére.</td>
+          <td><a href="#aggregate">[html]</a></td>
+        </tr>
+        <tr>
+          <td>SUM()</td>
+          <td>Bizonyos mezőkben található számokat tudunk vele összegezni.</td>
+          <td><a href="#aggregate">[html]</a></td>
+        </tr>
+        <tr>
+          <td>AVG()</td>
+          <td>Bizonyos mezőkben található számokat tudunk vele átlagolni.</td>
+          <td><a href="#aggregate">[html]</a></td>
+        </tr>
+        <tr>
+          <td>ROUND(x,y)</td>
+          <td>Számok kerekítésére szolgál.</td>
+          <td><a href="#aggregate">[html]</a><a href="https://www.w3schools.com/sql/func_mysql_round.asp">[w3]</a></td>
+        </tr>
+      </table>
+
+      <h3>Adattípusok</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>CHAR(x)</td>
+          <td>Karaktertípus, fix memóriafelhasználással. A karakterek hosszának 0 és 255 közötti értéket tudunk megadni.</td>
+          <td><a href="#adattipusok">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/char.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>VARCHAR(x)</td>
+          <td>Karaktertípus, dinamikusan változó memóriafelhasználással. A karakterek hosszának 0 és 255 közötti értéket tudunk megadni.</td>
+          <td><a href="#adattipusok">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/char.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>INT</td>
+          <td>Egész számok tárolására használjuk.</td>
+          <td><a href="#adattipusok">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DECIMAL(x,y)</td>
+          <td>Tizedestörteket tudunk megadni vele. Két paramétert kell megadni: az egyikkel azt tudjuk megadni, hogy összesen hány számjegyből fog állni a szám, a másodikkal, hogy a tizedesvessző után hány számjegy fog állni. Minden esetben az x nagyobb, mint az y. Ha túl sok számjegyből álló számot adunk meg, akkor a lehető legnagyobb szám fog a táblába kerülni.</td>
+          <td><a href="#adattipusok">[html]</a></td>
+        </tr>
+        <tr>
+          <td>FLOAT</td>
+          <td>Tizedestörteket tudunk megadni vele, 7 számjegyig pontos. Kisebb a memóriaigénye, mint a DOUBLE-nek, viszont kevésbé pontos.</td>
+          <td><a href="#adattipusok">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DOUBLE</td>
+          <td>Tizedestörteket tudunk megadni vele, 15 számjegyig pontos. Nagyobb a memóriaigénye, mint a FLOAT-nak, viszont pontosabb.</td>
+          <td><a href="#adattipusok">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DATE</td>
+          <td>Csak dátumot tároló adattípus. Formátuma: 'YYYY-MM-DD'</td>
+          <td><a href="#adattipusok">[html]</a></td>
+        </tr>
+        <tr>
+          <td>TIME</td>
+          <td>Csak időt tároló adattípus. Formátuma: 'HH:MM:SS'.</td>
+          <td><a href="#adattipusok">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DATETIME</td>
+          <td>Dátumot és időt tároló adattípus. Formátuma: 'YYYY-MM-DD HH:MM:SS'. Nagyobb a memóriaigénye, mint a TIMESTAMP-nek, viszont nagyobb dátumtartományt képes felismerni és tárolni.</td>
+          <td><a href="#adattipusok">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/datetime.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>TIMESTAMP</td>
+          <td>Dátumot és időt tároló adattípus. Formátuma: 'YYYY-MM-DD HH:MM:SS'. Kisebb a memóriaigénye, mint a DATETIME-nak, viszont kisebb dátumtartományt képes felismerni és tárolni. Célszerű akkor használni, amikor olyan dátumot tárolunk, ami a közeljövőben volt vagy lesz.</td>
+          <td><a href="#adattipusok">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/datetime.html">[mysql]</a></td>
+        </tr>
+      </table>
+
+      <h3>Adattípusokhoz kapcsolódó kulcsszavak</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>CURDATE()</td>
+          <td>A jelenlegi dátumot adja vissza. Le tudjuk kérdezni a SELECT-tel.</td>
+          <td><a href="#adattipusok">[html]</a></td>
+        </tr>
+        <tr>
+          <td>CURTIME()</td>
+          <td>A pontos időt adja vissza. Le tudjuk kérdezni a SELECT-tel.</td>
+          <td><a href="#adattipusok">[html]</a></td>
+        </tr>
+        <tr>
+          <td>NOW()</td>
+          <td>A jelenlegi dátumot adja vissza a pontos idővel. Le tudjuk kérdezni a SELECT-tel.</td>
+          <td><a href="#adattipusok">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DAY()</td>
+          <td>A dátumban szereplő nap.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DAYNAME()</td>
+          <td>Az adott nap neve.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DAYOFWEEK()</td>
+          <td>Az adott nap hányadik a héten. Vasárnap az 1.!</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DAYOFYEAR()</td>
+          <td>Az adott nap hányadik az évben.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>MONTH()</td>
+          <td>A hónap sorszámát adja vissza.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>MONTHNAME()</td>
+          <td>A hónap nevét adja vissza.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>YEAR()</td>
+          <td>Az adott évet adja vissza.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>HOUR()</td>
+          <td>Az órát adja vissza.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>MINUTE()</td>
+          <td>A percet adja vissza.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>SECOND()</td>
+          <td>A másodpercet adja vissza.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DATE_FORMAT()</td>
+          <td>Dátum egyedi formázására használható. Két paramétert kell neki megadni: a dátumot és a formátumot, hogy miképp szeretnénk a dátumot visszakapni.</td>
+          <td><a href="#date-maths">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html#function_date-format">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>DATEDIFF()</td>
+          <td>Két dátum különbségét tudjuk vele kiszámolni. Két paramétert vár: a két dátumot, amelynek a különbségét meg szeretnénk kapni.</td>
+          <td><a href="#date-maths">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DATE_ADD()</td>
+          <td>Dátumhoz tudunk hozzáadni tetszőlegesen bármit, ami dátumhoz köthető. Például másodpercet vagy napokat.</td>
+          <td><a href="#date-maths">[html]</a><a href="https://www.w3schools.com/sql/func_mysql_date_add.asp">[w3]</a></td>
+        </tr>
+        <tr>
+          <td>CAST()</td>
+          <td>Egy valamilyen típusú adatot másik típusú adattá tudunk konvertálni</td>
+          <td><a href="#date-maths">[html]</a><a href="https://www.w3schools.com/sql/func_mysql_cast.asp">[w3]</a></td>
+        </tr>
+      </table>
+
+      <h3>Logikai operátorok</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>=, !=</td>
+          <td>Egyenlő/nem egyenlő</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>LIKE, NOT LIKE</td>
+          <td>Adatok illeszkedése vagy nem illeszkedése egy általunk megadott patternre</td>
+          <td><a href="#logical-operators">[html-op]</a><a href="#finomitas">[html-fin]</a></td>
+        </tr>
+        <tr>
+          <td>>, >=</td>
+          <td>Nagyobb, nagyobb vagy egyenlő</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td><, <=</td>
+          <td>Kisebb, kisebb vagy egyenlő</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>AND, OR</td>
+          <td>Logikai és, logikai vagy. Jelölésük még: && és ||</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>BETWEEN, NOT BETWEEN</td>
+          <td>Egy adott érték két másik érték között van-e vagy sem.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>IN, NOT IN</td>
+          <td>Egy adott érték benne van-e egy halmazban vagy sem.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>MOD</td>
+          <td>Maradékos osztás. Jelölés még: %.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>DIV</td>
+          <td>Egészosztás. Jelölés még: /.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>IS NULL, IS NOT NULL</td>
+          <td>Logikai vizsgálat, hogy egy adat NULL-e vagy sem.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+      </table>
+
+      <h3>Elágazás</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>CASE</td>
+          <td>Ezzel jelöljük az elágazás kezdetét.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>WHEN</td>
+          <td>A feltételünket tudjuk megadni vele. A feltételek sorrendje nagyon fontos, hisz mindig a legkorábbi feltétel teljesül, ha van olyan feltétel, amire megfelel az adat.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>THEN</td>
+          <td>Ha teljesül a feltétel, akkor mit kapjunk vissza. Ez egy sorban van a WHEN-nel.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>ELSE</td>
+          <td>Amennyiben egyik feltétel sem teljesül, akkor mit kapjunk vissza.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>END (AS)</td>
+          <td>Az elágazás lezárása és az elágazás során kapott ideiglenes oszlop nevének meghatározása.</td>
+          <td><a href="#logical-operators">[html]</a></td>
+        </tr>
+        <tr>
+          <td>IF</td>
+          <td>Feltételeket tudunk megadni és a feltétel teljesülése illetve nem teljesülése esetén tudunk bizonyos outputot meghatározni. Három paramétert vár: egy feltételt, egy értéket, amit akkor kapunk, ha igaz a feltétel, illetve egy értéket, amit akkor kapunk, ha nem teljesül az.</td>
+          <td><a href="https://www.w3schools.com/sql/func_mysql_if.asp">[w3]</a></td>
+        </tr>
+        <tr>
+          <td>IFNULL(feltetel, ertek)</td>
+          <td>A NULL értékkel rendelkező adatnak tudunk értéket adni.</td>
+          <td><a href="https://www.w3schools.com/sql/func_mysql_ifnull.asp">[w3]</a></td>
+        </tr>
+      </table>
+
+      <h3>Joinok</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>FOREIGN KEY, REFERENCES</td>
+          <td>Foreign Key-jel két táblát tudunk összekötni úgy, hogy a kapcsolat megmaradjon. Ha táblát törlünk, akkor mindig a Foreign Key-es táblával kezdünk.</td>
+          <td><a href="#joins">[html]</a></td>
+        </tr>
+        <tr>
+          <td>INNER JOIN (JOIN)</td>
+          <td>Az A és a B tábla azon rekordjai szerepelnek az összekapcsolt táblában, amelynek kulcsai az A és a B táblában is szerepelnek. Ez az egyetlen join, ahol nem lesz null érték (hacsak nem adtunk meg az egyik táblában null értéket).</td>
+          <td><a href="#joins">[html]</a></td>
+        </tr>
+        <tr>
+          <td>LEFT JOIN</td>
+          <td>Amennyiben az A tábla kulcsa közül valamelyik szerepel a B tábla kulcsai között, úgy a B tábla adott rekordját hozzájoinoljuk a táblához. Az A tábla összes rekordja mindenképp bekerül a joinolt táblában, míg a B tábla azon rekordjait, amivel nem tudtunk matchelni, elhagyjuk. Lehet benne Null, amit az IFNULL() függvénnyel tudunk "feloldani".</td>
+          <td><a href="#joins">[html]</a></td>
+        </tr>
+        <tr>
+          <td>RIGHT JOIN</td>
+          <td>Amennyiben a B tábla kulcsa közül valamelyik szerepel az A tábla kulcsai között, úgy az A tábla adott rekordját hozzájoinoljuk a táblához. A B tábla összes rekordja mindenképp bekerül a joinolt táblában, míg az A tábla azon rekordjait, amivel nem tudtunk matchelni, elhagyjuk. Lehet benne Null, amit az IFNULL() függvénnyel tudunk "feloldani".</td>
+          <td><a href="#joins">[html]</a></td>
+        </tr>
+        <tr>
+          <td>OUTER JOIN</td>
+          <td>Az A és a B tábla összes rekordjai szerepelnek az összekapcsolt táblában, amelynek kulcsai az A vagy a B táblában szerepelnek. Azoknál a rekordoknál, amelyek eltérnek, null érték(ek) keletkeznek.</td>
+          <td><a href="#joins">[html]</a></td>
+        </tr>
+        <tr>
+          <td>ON DELETE CASCADE</td>
+          <td>Ezt a FOREIGN KEY-nél tudjuk megadni és a célja az, hogyha egy rekordot törlünk a szülő táblában, akkor a gyerek táblában az összes hozzá tartozó rekordot töröljük, ugyanis azokra a rekordokra így már nem lesz szükségünk.</td>
+          <td><a href="#joins">[html]</a></td>
+        </tr>
+      </table>
+
+      <h3>Nézetek, módok</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>CREATE VIEW ... AS ...</td>
+          <td>Ezzel utasítással el tudjuk menteni az általunk megadott lekérdezés után kapott táblát. Ennek célja az, hogy bizonyos esetekben nem kell mégegyszer a lekérdezést megírni, hanem, mivel az elmentett tábla is normális táblaként funkcionál, könnyen hozzá tudunk férni az adott táblához és ugyanúgy tudunk lekérdezéseket is írni vele.</td>
+          <td><a href="#views">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/create-view.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>CREATE OR REPLACE VIEW ... AS ...</td>
+          <td>Ha esetleg módosítani szeretnénk a táblán, például rossz sorrendben rendeztük, akkor használjuk ezt az utasítást.</td>
+          <td><a href="#views">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/create-view.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>ALTER VIEW</td>
+          <td>Ugyanaz, mint az előző.</td>
+          <td><a href="#views">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/alter-view.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>HAVING</td>
+          <td>A HAVING segítségével a csoportosított adatainkat tudjuk szűrni. A HAVING után tudjuk alkalmazni az <a href="#aggregate">összegző</a> függvényeket.</td>
+          <td><a href="#views">[html]</a></td>
+        </tr>
+        <tr>
+          <td>WITH ROLLUP</td>
+          <td>A WITH ROLLUP kulcsszó a GROUP BY-jal áll együtt és ennek segítségével a lekérdezés során kapott táblázat utolsó sorában megjelenik egy összegző sor. Működik akkor is, ha több mezőt csoportosítunk, ekkor több összegző sor jelenik meg a legkérdezésben.</td>
+          <td><a href="#views">[html]</a></td>
+        </tr>
+      </table>
+
+      <h3>Ablakfüggvények</h3>
+      <table>
+        <tr>
+          <th>Kulcsszó</th>
+          <th>Szerep</th>
+          <th>Dokumentáció</th>
+        </tr>
+        <tr>
+          <td>OVER()</td>
+          <td>Az OVER() függvény meghívásával tudjuk megvalósítani azt, hogy minden egyes sornál megjelenjen az összesítő függvény által számolt érték. Ha a zárójelek közé nem írunk semmit, akkor minden sornál ugyanaz az érték jelenik meg.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>PARTITION BY</td>
+          <td></td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>ORDER BY</td>
+          <td>AZ OVER() függvényt kell hozzá meghívni és a zárójel pár közé kell írni ezt a kulcsszót. A szerepe hasonlít a GROUP BY-éhoz, különböző sorokat tudunk csoportosítani az adott mezőben található értékeik szerint.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>RANK()</td>
+          <td>A RANK() egy tényleges ablakfüggvény, amelynek segítségével rangsorolni tudjuk az adatainkat. Az OVER()-ben meg kell adni azt, hogy mi szerint szeretnénk rangsorolni. Fontos, hogy számít az, hogyha az adott értékek egyenlőek, ilyenkor ugyanolyan sorszámmal látja el az azonos értékkel rendelkező sorokat.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>ROW_NUMBER()</td>
+          <td>A sorokat sorszámozza, nem törődik azzal, ha több adat is megegyezik egymással.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>DENSE_RANK()</td>
+          <td>Hasonlít a RANK()-hez, annyi a különbség, hogy folyamatosan sorszámoz az egyenlőséget figyelembe véve.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>NTILE(N)</td>
+          <td>Az adatokat N részre osztjuk bizonyos értékek szerint és azt kapjuk vissza minden sornál, hogy melyik részhez tartozik az adott adat az adott érték szerint.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>FIRST_VALUE()</td>
+          <td>Az első érték.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>NTH_VALUE()</td>
+          <td>Valahányadik érték.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>LAG()</td>
+          <td>Összehasonlítás az előző sor értékével.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+        <tr>
+          <td>LEAD()</td>
+          <td>Összehasonlítás a következő sor értékével.</td>
+          <td><a href="#windowfunctions">[html]</a><a href="https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html">[mysql]</a></td>
+        </tr>
+      </table>
     </div>
 
     <div id="kezdetek">
@@ -919,7 +1629,8 @@
       <p>Cross Join - Az A tábla összes rekordját összekötjük a B tábla összes rekordjával, így egy a*b rekordból álló táblát kapunk, ahol 'a' az A, valamint a 'b' a B táblában található rekordok száma.</p>
       <p>SELECT * FROM tablaA, tablaB;</p>
       <h3>LEFT JOIN</h3>
-      <p>Amennyiben az A tábla kulcsa közül valamelyik szerepel a B tábla kulcsai között, úgy a B tábla adott rekordját hozzájoinoljuk a táblához. Az A tábla összes rekordja mindenképp bekerül a joinolt táblában, míg a B tábla azon rekordjait, amivel nem tudtunk matchelni, elhagyjuk. Lehet benne Null, amit az IFNULL() függvénnyel tudunk "feloldani".</p>
+      <p>Amennyiben az A tábla kulcsa közül valamelyik szerepel a B tábla kulcsai között, úgy a B tábla adott rekordját hozzájoinoljuk a táblához.</p>
+      <p>Az A tábla összes rekordja mindenképp bekerül a joinolt táblába, míg a B tábla azon rekordjait, amivel nem tudtunk matchelni, elhagyjuk. Lehet benne Null, amit az IFNULL() függvénnyel tudunk "feloldani".</p>
       <p>Pl.: <br>
         A tábla kulcsai - 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 <br>
         B tábla kulcsai - 2, 4, 6, 8, 10, 12, 14, 15 <br>
@@ -932,7 +1643,7 @@
         ON tablaA.key = tablaB.key</p>
       <h3>RIGHT JOIN</h3>
       <p>Amennyiben a B tábla kulcsa közül valamelyik szerepel az A tábla kulcsai között, úgy az A tábla adott rekordját hozzájoinoljuk a táblához.</p>
-      <p>A B tábla összes rekordja mindenképp bekerül a joinolt táblában, míg az A tábla azon rekordjait, amivel nem tudtunk matchelni, elhagyjuk. Lehet benne Null, amit az IFNULL() függvénnyel tudunk "feloldani".</p>
+      <p>A B tábla összes rekordja mindenképp bekerül a joinolt táblába, míg az A tábla azon rekordjait, amivel nem tudtunk matchelni, elhagyjuk. Lehet benne Null, amit az IFNULL() függvénnyel tudunk "feloldani".</p>
       <p>Pl.: <br>
         A tábla kulcsai - 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 <br>
         B tábla kulcsai - 2, 4, 6, 8, 10, 12, 14, 15 <br>
@@ -1077,7 +1788,7 @@
         SELECT id, cim, oldalszam, RANK() OVER(ORDER BY oldalszam DESC) AS ranking <br>
         FROM konyveim;</p>
       <h3>ROW_NUMBER()</h3>
-      <p>A sorokat sorszámozza, nem törődik azzal, ha több adat is megyezeik egymással.</p>
+      <p>A sorokat sorszámozza, nem törődik azzal, ha több adat is megegyezik egymással.</p>
       <h3>DENSE_RANK()</h3>
       <p>Hasonlít a RANK()-hez, annyi a különbség, hogyha például 3 darab 40. helyezett van egy adott érték szerint az táblában, akkor a következő nem 43., hanem 41. helyezett lesz, tehát folyamatosan sorszámoz az egyenlőséget figyelembe véve.</p>
       <h3>NTILE(N)</h3>
@@ -1096,661 +1807,11 @@
       <h3>FIRST_VALUE(), NTH_VALUE()</h3>
       <p>Első és valahányadik érték</p>
       <h3>LAG()</h3>
-      <p>Összehasonlítás az előző sor értékével</p>
+      <p>Összehasonlítás az előző sor értékével.</p>
       <h3>LEAD()</h3>
-      <p>Összehasonlítás a következő sor értékével</p>
+      <p>Összehasonlítás a következő sor értékével.</p>
     </div>
-
-    <div id="kulcsszavak">
-      <h2>Kulcsszavak</h2>
-      <h3>Létrehozással kapcsolatos kulcsszavak</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>CREATE DATABASE {név}</td>
-          <td>Adatbázis létrehozása.</td>
-          <td><a href="#tablazat-keszitese">[html]</a></td>
-        </tr>
-        <tr>
-          <td>SHOW DATABASES</td>
-          <td>Az összes adatbázis lekérdezése, ami a szerveren található.</td>
-          <td><a href="#tablazat-keszitese">[html]</a></td>
-        </tr>
-        <tr>
-          <td>SELECT DATABASE()</td>
-          <td>Aktív adatbázisok lekérdezése.</td>
-          <td><a href="#tablazat-keszitese">[html]</a></td>
-        </tr>
-        <tr>
-          <td>DROP DATABASE {név}</td>
-          <td>Adatbázis törlése. A törlés végleges.</td>
-          <td><a href="#tablazat-keszitese">[html]</a></td>
-        </tr>
-        <tr>
-          <td>USE {név}</td>
-          <td>A USE után megadott adatbázisba lépünk, ez lesz az aktív adatbázisunk.</td>
-          <td><a href="#tablazat-keszitese">[html]</a></td>
-        </tr>
-        <tr>
-          <td>SHOW TABLES</td>
-          <td>Megmutatja az aktuális adatbázisban található összes táblát.</td>
-          <td><a href="#tablazat-keszitese">[html]</a></td>
-        </tr>
-        <tr>
-          <td>DESC {név} vagy <br> SHOW COLUMNS FROM {név}</td>
-          <td>Egy általunk megadott tábláról kapunk információkat.</td>
-          <td><a href="#tablazat-keszitese">[html]</a></td>
-        </tr>
-        <tr>
-          <td>DROP TABLE</td>
-          <td>Tábla törlése. A törlés végleges.</td>
-          <td><a href="#tablazat-keszitese">[html]</a></td>
-        </tr>
-        <tr>
-          <td>CREATE TABLE</td>
-          <td>Tábla létrehozása.</td>
-          <td><a href="#tablazat-keszitese">[html]</a></td>
-        </tr>
-        <tr>
-          <td>NULL</td>
-          <td>Default beállítás. Az értékét nem ismerjük, nincs meghatározott értéke és nem ekvivalens a nullával. Amennyiben ha rekordot adunk a táblához, és az egyik oszlopához nem rendelünk értéket, akkor automatikusan NULL érték kerül.</td>
-          <td><a href="#null">[html]</a></td>
-        </tr>
-        <tr>
-          <td>NOT NULL</td>
-          <td>A NOT NULL megadásával elkerülhetjük a NULL értékeket. Ha valamihez nem rendelünk értéket, akkor nem NULL érték jelenik meg, hanem az adott adattípusban a 0-val ekvivalens érték. Például VARCHAR-nál üres string, INT-nél 0.</td>
-          <td><a href="#null">[html]</a></td>
-        </tr>
-        <tr>
-          <td>DEFAULT</td>
-          <td>Amennyiben a tábla készítésénél az egyik mezőhöz rendelünk default értéket, akkor a rekord megadásakor, ha valamihez nem írunk adatot, automatikusan a default érték kerül megadásra.</td>
-          <td><a href="#null">[html]</a></td>
-        </tr>
-        <tr>
-          <td>PRIMARY KEY</td>
-          <td>Egy kulcs, amely segítségünkre van abban, hogy egy bizonyos adat csak egyszer szerepeljen egy adott mezőben. Legtöbbször ID-khez rendeljük, mert azok, amik leginkább egyediek. A PRIMARY KEY-t rendelhetjük egy adott mezőhöz vagy a tábla létrehozásakor a legvégén is megadhatjuk, zárójelben, hogy melyik mezőt szeretnénk primary key-nek tekinteni. Csak egy lehet belőle egy táblában.</td>
-          <td><a href="#primary-keys">[html]</a></td>
-        </tr>
-        <tr>
-          <td>AUTO_INCREMENT</td>
-          <td>Bizonyos mező értékei minden újabb rekord létrehozásával emelkedik. Ezt is célszerű akkor használni, ha van ID mezőnk és célszerű együtt használni a primary key-el.</td>
-          <td><a href="#primary-keys">[html]</a></td>
-        </tr>
-        <tr>
-          <td>UNIQUE</td>
-          <td>Garantálja, hogy az adott mezőben minden érték csak egyszer forduljon elő. Hasonlít a Primary Keyhez, tulajdonképpen a primary key is rendelkezik a unique megszorítással. A különbség a kettő között az, hogy míg Primary Keyből csak 1 lehet táblánként, addig Uniqueból lehet több.</td>
-          <td><a href="#constraint">[html]</a><a href="https://www.w3schools.com/mysql/mysql_unique.asp">[w3]</a></td>
-        </tr>
-        <tr>
-          <td>CHECK</td>
-          <td>Egy feltétel, amellyel kontrollálni tudjuk, milyen rekordok kerüljenek be a táblába.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>CONSTRAINT</td>
-          <td>A CONSTRAINT kulccszó után tudjuk megadni a megszorításunkat, amelynek nevet is tudunk adni, így ha nem teljesül a feltétel, akkor a hibaüzenetben visszakapjuk, hogy miért nem teljesül. A CONSTRAINT a tábla létrehozásának végén szerepel.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>IF EXISTS</td>
-          <td>Annak ellenőrzésére szolgál, hogy egy adatbázis vagy egy tábla létezik-e. Amennyiben nem, úgy azt létrehozza, amennyiben igen, úgy nem történik semmi. Fontos szerepe van, ugyanis amennyiben kihagyjuk, és egy olyan adatbázist vagy táblát szeretnénk létrehozni, ami már létezik, akkor hibaüzenetet kapunk.</td>
-          <td></td>
-        </tr>
-      </table>
-
-      <h3>Táblák módosítása</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>ALTER TABLE</td>
-          <td>Táblákat az ALTER TABLE kulcsszó segítségével tudunk módosítani. Többféle módosítás lehetséges. Például: Oszlop hozzáadása, illetve elhagyása, átnevezés, oszlopok módosítása illetve megszorítások kötése.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>ADD COLUMN</td>
-          <td>Oszlop hozzáadása a már meglévő táblához.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>DROP COLUMN</td>
-          <td>Oszlop elhagyása a már meglévő táblából.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>RENAME TABLE ... TO ...</td>
-          <td>Tábla átnevezése.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>ALTER TABLE ... RENAME TO ...</td>
-          <td>Tábla átnevezése.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>RENAME COLUMN ... TO ...</td>
-          <td>Oszlop átnevezése.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>MODIFY</td>
-          <td>Oszlop típusának megváltoztatása.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>CHANGE</td>
-          <td>Oszlop nevének és típusának megváltozatása.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>ADD CONSTRAINT</td>
-          <td>Megszorítás hozzáadása.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-        <tr>
-          <td>DROP CONSTRAINT</td>
-          <td>Megszorítás törlése.</td>
-          <td><a href="#constraint">[html]</a></td>
-        </tr>
-      </table>
-
-      <h3>CRUD kulcsszavak</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>INSERT INTO {table}({columns}) VALUES ({values})</td>
-          <td>Adatok hozzáadása a táblához.</td>
-          <td><a href="#crud">[html]</a></td>
-        </tr>
-        <tr>
-          <td>SELECT {mezok} FROM {tabla}</td>
-          <td>Adatok lekérdezése egy adott táblából. Ha a SELECT után * van, akkor az összes adatot megkapjuk, ha bizonyos mezőnév vagy mezőnevek, akkor az azokhoz a mezőkhöz tartozó adatokat kapjuk vissza.</td>
-          <td><a href="#crud">[html]</a></td>
-        </tr>
-        <tr>
-          <td>WHERE {feltetel}</td>
-          <td>Csak azokat az adatokat kapjuk vissza, amikre teljesül a feltétel.</td>
-          <td><a href="#crud">[html]</a></td>
-        </tr>
-        <tr>
-          <td>UPDATE {table} SET {column}={value} (+ feltétel)</td>
-          <td>Tábla bizonyos oszlopában található értékek frissítése, amennyiben az általunk megadott feltétel teljesül. Amennyiben nem adunk meg feltételt, úgy az adott oszlopban található összes érték frissülni fog.</td>
-          <td><a href="#crud">[html]</a></td>
-        </tr>
-        <tr>
-          <td>DELETE FROM {table} (+ feltétel)</td>
-          <td>Azon rekordok törlése a táblából, amelyekre teljesül a feltétel. Amennyiben nem adunk meg feltételt, úgy az összes rekordot töröljük a táblából, de szemben a DROP TABLE-vel, maga a tábla megmarad, csak üres lesz.</td>
-          <td><a href="#crud">[html]</a></td>
-        </tr>
-      </table>
-
-      <h3>String függvények:</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>CONCAT</td>
-          <td>Több mező tartalmának összefűzése.</td>
-          <td><a href="#string-functions">[html]</a></td>
-        </tr>
-        <tr>
-          <td>CONCAT_WS</td>
-          <td>Több mező tartalmának összefűzése a megadott elválasztókarakterrel.</td>
-          <td><a href="#string-functions">[html]</a></td>
-        </tr>
-        <tr>
-          <td>SUBSTRING (SUBSTR)</td>
-          <td>Mező tartalmának levágása. Kétféleképp tudjuk használni: vagy két paramétert adunk meg neki vagy hármat (amiből az egyik a string, amit le akarunk vágni).</td>
-          <td><a href="#string-functions">[html]</a></td>
-        </tr>
-        <tr>
-          <td>REPLACE</td>
-          <td>A szöveg egy részeit kicseréljük másra.</td>
-          <td><a href="#string-functions">[html]</a></td>
-        </tr>
-        <tr>
-          <td>REVERSE</td>
-          <td>A szöveget megfordítjuk.</td>
-          <td><a href="#string-functions">[html]</a></td>
-        </tr>
-        <tr>
-          <td>CHAR_LENGTH</td>
-          <td>A szöveg hosszát kapjuk vissza.</td>
-          <td><a href="#string-functions">[html]</a></td>
-        </tr>
-        <tr>
-          <td>UPPER</td>
-          <td>A szöveget nagybetűsítjük.</td>
-          <td><a href="#string-functions">[html]</a></td>
-        </tr>
-        <tr>
-          <td>LOWER</td>
-          <td>A szöveget kisbetűsítjük.</td>
-          <td><a href="#string-functions">[html]</a></td>
-        </tr>
-      </table>
-
-      <h3>Finomítással kapcsolatos kulcsszavak:</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>DISTINCT</td>
-          <td>Minden duplikált adatból csak egyet kapunk vissza.</td>
-          <td><a href="#finomitas">[html]</a></td>
-        </tr>
-        <tr>
-          <td>ORDER BY</td>
-          <td>Az adatokat rendezzük vele sorba. Az ORDER BY az általunk írt lekérdezés végén áll. A kulcsszó után megadhatunk számot vagy mezőnevet, ami alapján szeretnénk, hogy a sorbarendezés megtörténjen. Amennyiben számot adunk meg, úgy aszerint a mező szerint rendezzük, amelyik azon a helyen áll a SELECT után, ahányadik számot megadtuk. Nem muszáj olyan mező szerint rendezni, amit lekérdezünk. Ha a szám vagy a mező után az ASC szót írjuk, akkor növekvő, ha a DESC szót írjuk, akkor csökkenő sorrendbe rendezünk. A default beállítás a növekvő, így az ASC-ot nem is szükséges kiírni.</td>
-          <td><a href="#finomitas">[html]</a></td>
-        </tr>
-        <tr>
-          <td>LIMIT</td>
-          <td>Leszűkítjük a lekérdezés során kapott adatok számát. Ezt is kétféleképpen tudjuk megadni: vagy egy számot adunk meg és akkor a legelső X találatot kapjuk vissza, vagy két számot (vesszővel elválasztva) és akkor eltolva kapunk vissza X találatot.</td>
-          <td><a href="#finomitas">[html]</a></td>
-        </tr>
-      </table>
-
-      <h3>Csoportosítással kapcsolatos kulcsszavak</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>GROUP BY</td>
-          <td>Bizonyos mezőben található adatok csoportosítása az értékük alapján.</td>
-          <td><a href="#aggregate">[html]</a></td>
-        </tr>
-        <tr>
-          <td>COUNT()</td>
-          <td>Adatok megszámolása. Ha a GROUP BY-jal használjuk együtt, akkor megszámoljuk, hogy egy csoporthoz mennyi adat tartozik.</td>
-          <td><a href="#aggregate">[html]</a></td>
-        </tr>
-        <tr>
-          <td>MIN()</td>
-          <td>A minimális értéket határozhatjuk meg vele. Ha a minimális érték mellé szeretnénk valamit kiíratni, akkor subqueryt kell használni, máskülönben pontatlan eredményt kapunk. GROUP BY-jal használva a csoport egy minimális értékét tudjuk meghatározni vele (például ha könyvek vannak, akkor a különböző írók legkorábbi könyvét).</td>
-          <td><a href="#aggregate">[html]</a></td>
-        </tr>
-        <tr>
-          <td>MAX()</td>
-          <td>A maximális értéket határozhatjuk meg vele. Ha a maximális érték mellé szeretnénk valamit kiíratni, akkor subqueryt kell használni, máskülönben pontatlan eredményt kapunk. GROUP BY-jal használva a csoport egy maximális értékét tudjuk meghatározni vele (például ha könyvek vannak, akkor a különböző írók legkésőbbi könyvét).</td>
-          <td><a href="#aggregate">[html]</a></td>
-        </tr>
-        <tr>
-          <td>SUBQUERIES</td>
-          <td>Amikor egy lekérdezésen belül szerepel egy másik lekérdezés, általában a feltételben. Minden esetben a belső lekérdezés hajtódik végre, az eredmény pedig egy tábla lesz még akkor is, ha csak 1 értéket kapunk meg. Viszont nem mindig ez a legjobb módszer, hisz ha egy nagy adathalmazzal rendelkező táblára több lekérdezést hajtunk végre, az rengeteg idő és memória. Így csak akkor használjuk, ha nincs más megoldás a feladat elvégzésére.</td>
-          <td><a href="#aggregate">[html]</a></td>
-        </tr>
-        <tr>
-          <td>SUM()</td>
-          <td>Bizonyos mezőkben található számokat tudunk vele összegezni.</td>
-          <td><a href="#aggregate">[html]</a></td>
-        </tr>
-        <tr>
-          <td>AVG()</td>
-          <td>Bizonyos mezőkben található számokat tudunk vele átlagolni.</td>
-          <td><a href="#aggregate">[html]</a></td>
-        </tr>
-        <tr>
-          <td>ROUND(x,y)</td>
-          <td>Számok kerekítésére szolgál.</td>
-          <td><a href="#aggregate">[html]</a><a href="https://www.w3schools.com/sql/func_mysql_round.asp">[w3]</a></td>
-        </tr>
-      </table>
-
-      <h3>Adattípusok</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>CHAR(x)</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>VARCHAR(x)</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>INT</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DECIMAL(x,y)</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>FLOAT</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DOUBLE</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DATE</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>TIME</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DATETIME</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>TIMESTAMP</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-
-      <h3>Adattípusokhoz kapcsolódó kulcsszavak</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>CURDATE()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>CURTIME()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>NOW()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DAY()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DAYNAME()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DAYOFWEEK()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DAYOFYEAR()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>MONTH()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>MONTHNAME()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>YEAR()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>HOUR()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>MINUTE()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>SECOND()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DATE_FORMAT()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DATEDIFF()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DATE_ADD()</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ON UPDATE</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>CAST()</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-
-      <h3>Logikai operátorok</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>=, !=</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>LIKE, NOT LIKE</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>>, >=</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><, <=</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>AND, OR</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>BETWEEN, NOT BETWEEN</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>IN, NOT IN</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>MOD</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>DIV</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>IS NULL, IS NOT NULL</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-
-      <h3>Elágazás</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>CASE</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>WHEN</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>THEN</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ELSE</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>END (AS)</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>IF</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>IFNULL(feltetel, ertek)</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-
-      <h3>Joinok</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>FOREIGN KEY, REFERENCE</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>INNER JOIN (JOIN)</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>LEFT JOIN</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>RIGHT JOIN</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>OUTER JOIN</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ON DELETE CASCADE</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-
-      <h3>Nézetek, módok</h3>
-      <table>
-        <tr>
-          <th>Kulcsszó</th>
-          <th>Szerep</th>
-          <th>Dokumentáció</th>
-        </tr>
-        <tr>
-          <td>CREATE VIEW ... AS ...</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>CREATE OR REPLACE VIEW ... AS ...</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ALTER VIEW</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>HAVING</td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>WITH ROLLUP</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
+    
   </div>
     
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

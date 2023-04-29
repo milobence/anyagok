@@ -45,8 +45,119 @@
         <h1>TypeScript</h1>
         <h2>Az oldal tartalma</h2>
         <ol>
-            <li></li>
+            <li><a href="#compiling">Compiling TypeScript</a></li>
+            <li><a href="#basics">Type Basics</a></li>
+            <li><a href="#objects">Objects & Arrays</a></li>
+            <li><a href="#explicit-types">Explicit Types</a></li>
+            <li><a href="#dynamic-types">Dynamic Types</a></li>
+            <li><a href="#tsconfig">Better workflow & tsconfig</a></li>
+            <li><a href="#function-basics">Function basics</a></li>
+            <li><a href="#type-aliases">Type Aliases</a></li>
         </ol>
+    </div>
+
+    <div id="compiling">
+      <h2>Compiling TypeScript</h2>
+      <p>A TypeScript fájlt nem ismeri fel a böngésző, csak a JavaScript fájlt. Ahhoz, hogy .ts-ből csináljuk böngészővel kompatibilis .js fájlt, az alábbi kódot kell megadni a terminálon: <br>
+        tsc {ts fájl} {js fájl}</p>
+      <p>Ha létezik a .ts és a .js fájl, és a nevük megegyezik, akkor a {js fájl} elhagyható. <br>
+        Vagy ha nem létezik .js fájl, akkor a compiler automatikusan létrehozza azt a .js fájlt.</p>
+      <p>Ha a .ts és a .js fájl egyszerre van nyitva, akkor a változónevekre errort kapunk. A .js fájl bezárásával megszüntethetjük a hibát! Nem kell aggódni a hiba miatt, mivel a böngésző csak a .js fájlt ismeri fel.</p>
+      <p>Ha sokszor módosítunk és nem szeretnénk ismét futtatni a compilert, akkor meg kell adni a végén egy -w-t, amivel automatikusan watch modeba kerül a compiler és minden egyes módosítást frissít!</p>
+    </div>
+
+    <div id="basics">
+      <h2>Type Basics</h2>
+      <p>Nagyon fontos az, hogyha egy változónak például számot adunk, akkor utána annak a változónak nem tudunk stringet vagy boolt adni, csak számot!</p>
+      <p>Ugyanez igaz, ha egy változónak string vagy boolean típust adunk meg.</p>
+    </div>
+
+    <div id="objects">
+      <h2>Objects & Arrays</h2>
+      <p>Több különböző típusú adatot is meg tudunk adni, amikor tömböt definiálunk. <br>
+        A tömbhöz a tombnev.push() segítségével tudunk új adatot hozzáadni, viszont csak olyan típusú adatot adhatunk meg, ami eleve szerepel a tömbben (tehát ha csak számokat tartalmaz a tömb, akkor stringet nem tudunk hozzáadni).</p>
+      <p>Objektumok létrehozása hasonlóan történik, mint JS-ben, tehát</p>
+      <img src="../img/typescript/Kép1.jpg" alt="">
+      <p>A különböző tulajdonságok értékeit a 3. leckében látottakhoz hasonlóan tudjuk változtatni, vagyis egy adott típusú értéket csak azonos típusúra tudunk cserélni!</p>
+    </div>
+
+    <div id="explicit-types">
+      <h2>Explicit Types</h2>
+      <p>Az explicit típust olyan esetben használjuk, ha nem tudunk kezdetben egy értéket adni a változónak, viszont szeretnénk előre meghatározni a típusát. Például, ha van egy "character" nevű változónk, amiről csak azt tudjuk, hogy string, akkor TypeScriptben így tudjuk megadni: <br>
+        let character: string;</p>
+      <br>
+      <p>A másik két típus esetén pedig az alábbiakat kell megadni: <br>
+        let age: number; <br>
+        let isLoggedIn: boolean;</p>
+      <br>
+      <p>Ha nem tudjuk pontosan, hogy mi a típusa, akkor így adjuk meg: <br>
+        let uid: string|number;</p>
+      <br>
+      <p>Ha tömböt szeretnénk expliciten megadni, akkor (ha például csak stringeket tartalmazó tömböt szeretnénk), az alábbit kell megadni: <br>
+        let ninjas: string[] = [];</p>
+      <p>Megj.: Ha nem adjuk meg az = []-t, akkor nem tudjuk alkalmazni a tömbön a push metódust!</p>
+      <br>
+      <p>Ha kevert tömböt szeretnénk, akkor pedig így definiáljuk az üres tömbünket: <br>
+        let mixed: (string|number|boolean)[] = [];</p>
+      <br>
+      <p>Objektumot meg az alábbiak szerint adjunk meg: <br>
+        let ninjaOne: object;</p>
+      <img src="../img/typescript/Kép2.jpg" alt="">
+      <p>Ilyenkor nem adunk meg kezdőértékeket, csak a változók típusait!</p>
+      <p>Megjegyzés: Nagyon fontos! Amennyiben típust adunk meg és nem értéket, akkor kettőpontot kell tenni a { elé, ha viszont értéket adunk meg, akkor egyenlőségjelet!</p>
+    </div>
+
+    <div id="dynamic-types">
+      <h2>Dynamic Types</h2>
+      <p>Ha nem tudjuk, hogy milyen legyen a változó típusa, vagy a későbbiekben ezen szeretnénk változtatni, akkor a típust anyvel kell megadni. <br>
+        let age: any;</p>
+      <p>Kezdőértékkel pedig <br>
+        let age: any = 25;</p>
+      <p>Ha azt szeretnénk megadni, hogy egy tömbbe bármilyen típusú érték kerülhet, akkor (a fentihez képest egyszerűbben) adjuk meg ezt: <br>
+        let mixed: any[] = [];</p>
+    </div>
+
+    <div id="tsconfig">
+      <h2>Better workflow & tsconfig</h2>
+      <p>Egy projekten belül előfordulhat az, hogy több TS fájllal is dolgozunk. Ilyenkor, ha ezeket átfordítjuk JS-re, például a böngészőnek, rengeteg TS és JS fájl keletkezik egy helyen, ami káoszhoz vezet. Éppen ezért célszerű elszeparálni a fájlokat. Rendszerint Public mappába kerülnek azok a fájlok, amik már a végleges projekt részei (pl. HTML, CSS, JS fájlok), míg a src-ba azok, amikkel dolgozunk (pl TS fájlok).</p>
+      <p>A fájlok rendezéséhez JSON fájlt kell létrehozni, amit a terminálon megadott tsc --init paranccsal tudunk létrehozni.</p>
+      <p>A JSON fájlban meg kell keresni a "rootDir"-t, és meg kell adni az alábbit: "rootDir": "./src". Ezzel módosítottuk a gyökérkönyvtárat arra az elérési útvonalra, ahol a projektben dolgozunk.</p>
+      <p>Utána meg kell keresni az "outDir"-t, és meg kell adni az alábbit: "outDir": "./public". Ezzel megadtuk, hogy a kész fájlok, mint például a JS fájl, a public mappába kerül, miután a compiler átalakította a TS-t JS-sé.</p>
+      <p>Ha új TS fájlt hozunk létre VSC-ben, az automatikusan a src mappán kívül lesz, viszont automatikusan lefordul és az új JS fájl létrejön a public mappán belül. Ha ezt ki szeretnénk küszöbölni, akkor a JSON fájl legvégére, a } jel után meg kell adni azt, hogy include: ["src"]. Ebben az esetben csak a src mappában található TS fájlok fognak automatikusan lefordulni.</p>
+    </div>
+
+    <div id="function-basics">
+      <h2>Function basics</h2>
+      <p>A nyílfüggvény általános alakja:</p>
+      <img src="../img/typescript/Kép3.jpg" alt="">
+      <p>TS-ben meg tudjuk azt csinálni, hogy eleve megadjuk, hogy mi az, amit függvénynek szeretnénk definiálni, például így: <br>
+        let greet: Function; (nagy F-fel)</p>
+      <p>Ilyenkor a greet csak függvény lehet, például:</p>
+      <img src="../img/typescript/Kép4.jpg" alt="">
+      <p>Hasonlóan a korábban látottakhoz, a paraméterek típusait is meg tudjuk adni a függvény létrehozásakor, így például elkerülhetjük azt, hogy amikor két szám összeadását szeretnénk elvégezni, akkor paraméternek például szöveget adunk meg.</p>
+      <img src="../img/typescript/Kép5.jpg" alt="">
+      <p>add(5,9);</p>
+      <br>
+      <p>Megadhatunk opcionális paramétereket is, ezeket úgy kell jelölni, hogy a paraméter neve után ?-et teszünk. Például: c?: number, ekkor a c paraméter egy opcionális paraméter, ha függvény hívásakor például ennek a paraméternek nem adunk értéket, akkor nem kapunk hibát. Viszont ebben az esetben, ha kiíratjuk a paraméter értékét, akkor undefined-ot kapunk. Ahhoz, hogy ezt elkerüljük, meg kell adni egy értéket a paraméternek, például így: <br>
+        c?: number = 10</p>
+      <p>Ekkor, ha c-nek nem adunk értéket a függvényhívásakor, akkor a paraméter értéke 10 lesz.</p>
+      <p>Ha pedig a paraméterek után megadjuk a függvény típusát, akkor megadjuk azt, hogy milyen típusú lesz maga a függvény. Így például, ha változóban tároljuk a függvényhívás eredményét, akkor automatikusan olyan típusú lesz a változó, mint amilyen maga a függvény. <br>
+        Például:</p>
+      <img src="../img/typescript/Kép6.jpg" alt="">
+      <p>let result = add(5,9);</p>
+      <p>Ebben az esetben a result típusa number lesz. Amennyiben viszont már típust rendeltünk hozzá és a típus nem egyezik, akkor hibát kapunk!</p>
+    </div>
+
+    <div id="type-aliases">
+      <h2>Type Aliases</h2>
+      <p>Amennyiben egy típust nagyon sokszor használunk és csak bonyolítja a kódot (például a string | number típus), abban az esetben meg tudunk adni egy aliast az alábbiak szerint: <br>
+        type alias = típus <br>
+        Például: type StringOrNum = string | number</p>
+      <p>Ilyenkor változó vagy paraméter típusának meg tudjuk adni ezt az aliast, ezáltal egyszerűsíthetünk a kódon.</p>
+      <br>
+      <p>Vagy megadhatunk egy konkrét objektumot is, például: <br>
+        type objWithName = {name: string, uid: StringOrNum}</p>
+      <p>Ezt fel tudjuk használni akkor, ha több olyan függvényt készítünk, aminek a paramétere ugyanez az objektum.</p>
     </div>
   </div>
     
