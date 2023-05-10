@@ -53,6 +53,12 @@
             <li><a href="#tsconfig">Better workflow & tsconfig</a></li>
             <li><a href="#function-basics">Function basics</a></li>
             <li><a href="#type-aliases">Type Aliases</a></li>
+            <li><a href="#signatures">Function Signatures</a></li>
+            <li><a href="#dom">The DOM & Type Casting</a></li>
+            <li><a href="#classes">Classes</a></li>
+            <li><a href="#public-private-readonly">Public, Private & Readonly</a></li>
+            <li><a href="#modules">Modules</a></li>
+            <li><a href="#interfaces">Interfaces (with classes)</a></li>
         </ol>
     </div>
 
@@ -158,6 +164,75 @@
       <p>Vagy megadhatunk egy konkrét objektumot is, például: <br>
         type objWithName = {name: string, uid: StringOrNum}</p>
       <p>Ezt fel tudjuk használni akkor, ha több olyan függvényt készítünk, aminek a paramétere ugyanez az objektum.</p>
+    </div>
+
+    <div id="signatures">
+      <h2>Function Signatures</h2>
+      <p>Paraméter nevére tudunk hivatkozni a függvényen belül úgy, hogy ${param}. Objektumok esetén $(objektum.paraméter).</p>
+      <p>Ha definiáljuk a függvénynek a paramétereit (és a típusait), valamint a függvény típusát, akkor ha megadjuk a függvényt magát, akkor figyelni kell arra, hogy bár a paraméterek neveit változtathatjuk, a típusait nem!</p>
+      <p>Erre egy példa: <br>
+        let calc: (a: number, b: number, c: string) => number; <br>
+        (hasonlóan az objektum megadásához, itt is, ha csak magát a függvény "alakját" adjuk meg, akkor :-t kell tenni!)</p>
+      <img src="../img/typescript/Kép7.jpg" alt="">
+    </div>
+
+    <div id="dom">
+      <h2>The DOM & Type Casting</h2>
+      <a href="https://www.typescriptlang.org/docs/handbook/dom-manipulation.html">Dokumentáció</a>
+    </div>
+
+    <div id="classes">
+      <h2>Classes</h2>
+      <a href="https://www.w3schools.com/typescript/typescript_classes.php">Dokumentáció</a>
+      <p>Osztályokat a class kulcsszóval tudjuk létrehozni. A class kulcsszó után meg kell adni az osztály nevét, ezt követően {} között a propertyket és azok típusait kell megadni. Ezt követően létre kell hozni egy constructort, aminek a paraméterei az osztály azon propertyjei, aminek kezdőértéket szeretnénk adni. Ilyenkor a paraméterre this-szel kell hivatkozni! Ez hasonlít a pythonban látható __init__ függvényre.</p>
+      <p>Példa egy osztály létrehozására:</p>
+      <img src="../img/typescript/Kép8.jpg" alt="">
+      <p>A format() metódussal pedig meg tudjuk adni, hogy az osztály különböző propertyjeihez tartozó értékeket milyen formában írja ki.</p>
+      <img src="../img/typescript/Kép9.jpg" alt="">
+      <p>Új, adott osztálybeli objektumot pedig úgy tudunk létrehozni, hogy először megadjuk a new kulcsszót, majd az osztály nevét és zárójelben a különböző propertykhez tartozó értékeket. Például:</p>
+      <p>const invOne = new Invoice('mario', 'work on the mario website', 250);</p>
+      <p>Az adott objektum bizonyos propertyjének az értékét például így tudjuk módosítani: <br>
+        invOne.client = "yoshi"; <br>
+        (objektum.property)</p>
+    </div>
+
+    <div id="public-private-readonly">
+      <h2>Public, Private & Readonly</h2>
+      <p>public (default) - bármikor hozzáférhetünk egy objektum (public) propertyjéhez és annak értékét tudjuk módosítani</p>
+      <p>private - az osztályon kívül nem tudunk hozzáférni egy objektum propertyjéhez, tehát például nem tudjuk konzolra kiíratni a private property értékét. Csak akkor tudunk hozzáférni a private propertyhez, amikor osztályon belül szeretnénk azt lekérdezni (például a fent látott format() metódus létrehozásánál)</p>
+      <p>readonly - le tudjuk kérdezni a readonly propertyt, viszont az értékét az inicializálás után nem tudjuk módosítani! A módosításra még classon belül sincs lehetőség!</p>
+      <p>TypeScriptben lehetőségünk van arra, hogy a constructorban adjuk meg a propertyket. Viszont erre csak akkor van lehetőségünk, ha a property neve elé odaírjuk a láthatóságaikat!</p>
+    </div>
+
+    <div id="modules">
+      <h2>Modules</h2>
+      <p>Ha modulokat szeretnénk készíteni, akkor az alábbiakat kell megtenni:</p>
+      <ol>
+        <li>A tsconfig.jsonben töröljük a kommentet ott, ahol a "module" van, majd értéknek adjuk meg, hogy "es2015".</li>
+        <li>A html fájlban adjuk meg a következőt: &ltscript type="module" src='app.js'&gt&lt/script&gt</li>
+        <li>Mentsük ki egy külön .ts fájlba az osztályt, azt tegyük bele egy classes mappába, amit a src-on belül hozunk létre.</li>
+        <li>Az újonnan létrehozott fájlban található osztály elejére adjuk meg az export kulcsszót.</li>
+        <li>Annak a TS fájl elejére, amin dolgozunk, adjuk meg ezt: import { Invoice } from './classes/Invoice.js';. Ilyenkor importáljuk az osztályt. Fontos azt, hogy a JS fájlt adjuk meg az importnál, ne a TS-t!</li>
+      </ol>
+    </div>
+
+    <div id="interfaces">
+      <h2>Interfaces (with classes)</h2>
+      <a href="https://www.tutorialsteacher.com/typescript/typescript-interface">Dokumentáció</a>
+      <p>Az interface lényege, hogy olyan szintaxist adjunk meg, amit az osztályoknak követniük kell. Egy-egy interfaceben lehetnek propertyk és metódusok, amiknek csak a típusait határozzuk meg. Ha az adott interface alapján hozunk létre objektumot vagy osztályt, akkor az interfaceben megadott összes propertyt és metódust ki kell fejtenünk.</p>
+      <p>Az első példában csak olyan interfacet hozunk létre, ami csak propertyket tartalmaz:</p>
+      <img src="../img/typescript/Kép10.jpg" alt="">
+      <p>let kv1: KeyPair = { key:1, value:"Steve" }; // OK <br>
+        let kv2: KeyPair = { key:1, val:"Steve" }; // Compiler Error: 'val' doesn't exist in type 'KeyPair' <br>
+        let kv3: KeyPair = { key:1, value:100 }; // Compiler Error:</p>
+      <p>A második példában pedig osztály létrehozása van interface segítségével:</p>
+      <img src="../img/typescript/Kép11.jpg" alt="">
+      <p>let emp = new Employee(1, "Steve");</p>
+      <p>Itt ahogy látható, az osztályon belül meg kell adnunk a getSalary metódust, ugyanis ez szerepel az interfaceben, ami alapján létrehozzuk az osztályunkat!</p>
+      <p>Az interfacen belül meg tudunk adni opcionális propertyket is. Ezeket, hasonlóan a korábban látottakhoz, úgy tudjuk megadni, hogy a : elé ?-et teszünk. Például: empDept?:string; Opcionális propertyknek NEM kell értéket adni, ha objektumot hozunk létre, nem fogunk errort kapni.</p>
+      <p>Például:</p>
+      <img src="../img/typescript/Kép12.jpg" alt="">
+      <p>További példák és hosszabb kifejtések a weboldalon találhatóak!</p>
     </div>
   </div>
     

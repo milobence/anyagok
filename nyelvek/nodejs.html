@@ -45,8 +45,84 @@
         <h1>NodeJS</h1>
         <h2>Az oldal tartalma</h2>
         <ol>
-            <li></li>
+            <li><a href="#parancsok">Néhány parancs</a></li>
+            <li><a href="#connect">MySQL-re csatlakozás NodeJS-sel</a></li>
+            <li><a href="#lekerdezesek-alapok">Lekérdezések NodeJS-ben - alapok</a></li>
+            <li><a href="#adatok-tarolasa">Az adatok tárolása</a></li>
         </ol>
+    </div>
+
+    <div id="parancsok">
+      <h2>Néhány parancs</h2>
+      <p>VSC-ben:</p>
+      <ul>
+        <li>cd -> current directory</li>
+        <li>cd .. - visszalépés 1 mappával</li>
+        <li>cd ../.. - visszalépés 2 mappával</li>
+        <li>cd utána tab -> a lehetséges mappákat adja meg (többször nyomjuk, akkor más mappát ad meg)</li>
+        <li>node {filename} -> a js futtatása</li>
+        <li>shift+alt+a -> többsoros komment</li>
+      </ul>
+      <p>MySQL-ben:</p>
+      <ul>
+        <li>ctrl + / - többsoros komment</li>
+      </ul>
+      <p>FAKER package - fake adatokat tudunk vele generálni</p>
+      <ul>
+        <li>Fake adatok generálása: FAKER package segítségével</li>
+        <li>FAKER használatához: const { faker } = require('@faker-js/faker');</li>
+        <li>Dokumentáció <a href="https://github.com/faker-js/faker">[GitHub]</a> <a href="https://fakerjs.dev/api/">[FakerJS]</a></li>
+        <li>faker.internet.email() -> random email-cím</li>
+        <li>faker.date.past() -> random dátum a múltban</li>
+      </ul>
+      <p>MySQL package dokumentáció: <a href="https://github.com/mysqljs/mysql">[GitHub]</a></p>
+    </div>
+
+    <div id="connect">
+      <h2>MySQL-re csatlakozás NodeJS-sel</h2>
+      <p>1. lépés: telepíteni a MySQL packaget a terminálon keresztül: npm install mysql (vagy npm init --y, aztán npm install --save mysql)</p>
+      <p>2. lépés: csatlakozáshoz megadni <br>
+        var mysql = require('mysql');</p>
+      <img src="../img/nodejs/Kép1.jpg" alt="">
+      <p>3. lépés: ellenőrizni a csatlakozást</p>
+      <img src="../img/nodejs/Kép2.jpg" alt="">
+      <p>3a. lépés: amennyiben nem sikerül csatlakozni úgy MySQL-ben az alábbi kódot adjuk meg: <br>
+        ALTER USER 'username'@'host' IDENTIFIED WITH mysql_native_password BY 'password';</p>
+      <p>3b. lépés: amennyiben nincs ilyen felhasználó, létre kell hozni: <br>
+        CREATE USER `username` IDENTIFIED BY "username";</p>
+      <p>3c. lépés: kérdezzük le, melyik hoston van az adott felhasználó <br>
+        SELECT user, host FROM mysql.user;</p>
+    </div>
+
+    <div id="lekerdezesek-alapok">
+      <h2>Lekérdezések NodeJS-ben - alapok</h2>
+      <p>A lekérdezés általános formája:</p>
+      <img src="../img/nodejs/Kép3.jpg" alt="">
+      <p>connection.end();</p>
+      <p>Az eredményt háromféleképp írathatjuk ki:</p>
+      <ol>
+        <li>results - ekkor egy tömböt kapunk, ahol a tömb egy eleme a lekérdezés során kapott eredmény egy sora</li>
+        <li>results[0] - ekkor elhagyjuk a tömböt és a tömb első elemét kapjuk vissza (tehát a lekérdezés során kapott eredmény első sorát)</li>
+        <li>results[0].answer - ekkor az eredmény egy mezőjére utalunk és csak annak a mezőnek az értékeit kapjuk vissza</li>
+      </ol>
+      <p>A lekérdezést célszerű egy külön változóba elmenteni (célszerű ennek q nevet adni), és ezt a változót adjuk meg a lekérdezés helyett.</p>
+    </div>
+
+    <div id="adatok-tarolasa">
+      <h2>Az adatok tárolása</h2>
+      <h3>1. megközelítés</h3>
+      <p>Az adatokat úgyis hozzá tudjuk adni az adatbázishoz, mint az SQL-ben. <br>
+        var q = 'INSERT INTO users(email) VALUES ("wyatt_the_dog@gmail.com")';</p>
+      <p>Ennek a megközelítésnek az a hátránya, hogy manuálisan tudjuk csak hozzáadni az adatokat, dinamikusan nem, amire szükségünk van, ha például a FAKER-t szeretnénk használni.</p>
+      <h3>2. megközelítés</h3>
+      <p>Az adatokat objektumokban tároljuk és az objektumokat adjuk hozzá az adatbázishoz</p>
+      <img src="../img/nodejs/Kép4.jpg" alt="">
+      <p>Ezzel már tudunk dinamikusan hozzáadni adatokat is, viszont a probléma az itt is, hogy minden egyes adatot objektumként kellene megadni, ami bizonyos esetekben komplikált.</p>
+      <h3>3. megközelítés</h3>
+      <p>Az összes adatot tömbként ábrázoljuk és minden adatot tömbként kezelünk úgy, hogy a tömb egyes eleme az adott mezőhöz tartozó értéke.</p>
+      <img src="../img/nodejs/Kép5.jpg" alt="">
+      <p>Ezzel a megközelítéssel sokkal könnyebb dolgozni, ugyanis ha random generálunk adatot, akkor 1 sor kóddal (amivel az adatokhoz tartozó tömböket a másik tömbbe pusholjuk) és egy for ciklussal fel tudjuk tölteni az adatbázisunkat.</p>
+      <img src="../img/nodejs/Kép6.jpg" alt=""> <br>
     </div>
   </div>
     
