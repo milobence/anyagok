@@ -45,8 +45,163 @@
         <h1>Angular</h1>
         <h2>Az oldal tartalma</h2>
         <ol>
-            <li></li>
+            <li><a href="#cli-kodok">CLI kódok</a></li>
+            <li><a href="#bevezetes">Bevezetés</a></li>
+            <li><a href="#komponensek-alapok">Alapok - komponensek</a></li>
+            <li><a href="#databinding-alapok">Alapok - databinding</a></li>
+            <li><a href="#directives-alapok">Alapok - directives</a></li>
+            <li><a href="#kiegeszitesek-alapok">Alapok - kiegészítések</a></li>
+            <li><a href="#course-project-alapok">Alapok - Course Project rövid összefoglaló</a></li>
+            <li><a href="#deep-dive">Components & databinding deep dive</a></li>
         </ol>
+    </div>
+
+    <div id="cli-kodok">
+      <h2>CLI kódok</h2>
+    </div>
+
+    <div id="bevezetes">
+      <h2>Bevezetés</h2>
+      <p>Telepítés: npm install -g @angular/cli@latest <br>
+        Új projekt készítése: ng new {fájlnév} <br>
+        Szerver futtatása a mappán belül: ng serve <br>
+        App futtatása: általában localhost:4200</p>
+      <p>fájl/src/app/ mappában találhatóak a nekünk szükséges fájlok</p>
+      <p>app.component.html-ben található a html fájl, amit tudunk szerkesztgetni <br>
+        app.component.css-ben a stílust tudjuk megadni <br>
+        app.component.ts-ben pedig kezdetben meg van adva a Component (ez exportálva van). Itt tudunk létrehozni komponenseket.</p>
+      <p>Ha azt szeretnénk, hogy egy input text mezőben lévő szöveg dinamikusan változzon a honlapon, akkor a következőt kell megadni: <br>
+        &ltinput type="text" [(ngModel)]="name"&gt</p>
+      <p>Ehhez viszont két dolgot kell megadni: </p>
+      <ol>
+        <li>Az app.component.ts fájlban az AppComponentnél definiálni kell a name változót</li>
+        <li>Az app.module.ts-ben importálni kell a FormsModulet, ugyanis az ngModel TS alapú, amit fel kell ismernie az Angularnak: import { FormsModule } from '@angular/forms'</li>
+        <li>Ezután az @NgModule-on belül az importhoz hozzá kell írni a FormsModulet.</li>
+      </ol>
+      <p>Projekten belül adjuk hozzá a bootstrapet: npm install --save bootstrap</p>
+      <p>A projekten belül található angular.json-ben keressük meg a stylest. Itt adjuk meg a "src/styles.css" mellett azt, hogy "node_modules/bootstrap/dist/css/bootstrap.min.css"</p>
+    </div>
+
+    <div id="komponensek-alapok">
+      <h2>Alapok - komponensek</h2>
+      <ol>
+        <li>Az app mappában található app.component.ts-ben kell megadni a komponenseket.</li>
+        <li>Ezek az app.moduleban található bootstrap: [AppComponent] segítségével kiolvasásra kerülnek, amit később az Angular már tud értelmezni.</li>
+        <li>Az értelmezéshez importálni kell az AppModule-t a main.ts fájlban.</li>
+        <li>Így, az index.html-ben található app-root tag is értelmezésre kerül, holott ez nem egy standard HTML tag. <br>
+        [kép]</li>
+        <li>Az app.module.ts fájlban adjuk hozzá a declarations-höz az új componensünket, amit feljebb megadtunk. Ahhoz, hogy ez valid legyen, importálni kell az osztályt: import { ServerComponent } from './server/server.component';</li>
+      </ol>
+      <p>CLI-jal komponens generálása: ng generate component {komponens neve} vagy ng g c {komponens neve}</p>
+      <p>Ha nem az app, hanem más mappába szeretnénk létrehozni a komponenst, akkor útvonalat kell megadni: ng g c útvonal/{komponens neve}</komponens></p>
+      <p>Ha a selectornál nem simán adjuk meg a nevet, hanem kapcsos zárójelek között (pl. '[app-servers]'), akkor úgy adtunk meg, hogy az egy element. Ilyenkor csak akkor tudjuk használni a komponenst, ha úgy adjuk meg, hogy: <br>
+        &ltdiv app-servers&gt&lt/div&gt</p>
+      <p>Ha pedig pontot teszünk a név elé (pl. '.app-servers'), akkor osztályként tekintünk rá. Ahhoz, hogy használni tudjuk a komponenst, a következőt kell megadni: <br>
+        &ltdiv class="app-servers"&gt&lt/div&gt</p>
+    </div>
+
+    <div id="databinding-alapok">
+      <h2>Alapok - Databinding</h2>
+      <h3>1. String interpolation</h3>
+      <p>Adjuk meg export class ...Componentnél azokat a komponenseket, amiket dinamikusan szeretnénk kiíratni.</p>
+      <p>Ezután a html fájlban {{ }} között adjuk meg a komponens nevét.</p>
+      <p>Vagy a {{ }} jelek közé megadhatunk stringet is akár. A lényeg, hogy különböző blokkokat, mint pl elágazás, nem adhatunk meg!</p>
+      <p>De akár definiálhatunk metódust is az osztályon belül, amit fel tudunk használni dinamikusan.</p>
+      <h3>2. Property binding</h3>
+      <p>Különböző HTML elemek propertyjét tudjuk dinamikusan változtatni vele, mint például a button disabled propertyjét. Ehhez az angular OnInit könyvtárát kell importálni és használni. A propertyket, amikre szeretnénk hatással lenni, [] közé kell tenni és értéket kell neki adni "" közé, ami lehet változónév vagy konkrét érték.</p>
+      <p>Használjunk string interpolationt, ha az outputot szeretnénk dinamikusan változtatni és property bindingot, ha HTML elemek propertyjét szeretnénk.</p>
+      <h3>3. Event listener</h3>
+      <p>Normál esetben, ha azt szeretnénk, hogy kattintásra történjen valami, akkor az onclick-et kell megadni. Angularban viszont ennél egyszerűbb módszert tudunk használni: ({event}) = "{metódus/függvény}".</p>
+      <p>$event - akkor kell, ha szeretnénk megkapni azokat az adatokat, amik az event során keletkeznek vagy változnak.</p>
+      <h3>4. Two-way binding</h3>
+      <p>A two-way binding esetében a komponensek a különböző evenetek hatására dinamikusan változtatják meg értékeiket. Ehhez kell használni a fent említett [(ngModel)]-t. <br>
+        A lényegi különbség a two-way binding és az event listener között az, hogyha az event listenernél történik értékváltoztatás, akkor a two-way binding is képes átvenni az adott értéket, viszont ez fordítva nem igaz: ha például olyan input mezőben változtatunk meg értéket, ahol two-way binding van, akkor az event listener mezőjében nem lesz semmilyen változás.</p>
+    </div>
+
+    <div id="directives-alapok">
+      <h2>Alapok - directives</h2>
+      <p>A directivek olyan osztályok, amik újabb viselkedést adnak HTML elemekhez.</p>
+      <p>Built-in directivek:</p>
+      <ul style="list-style: none;">
+        <li>* - struktúrális directive - módosítja a DOM-ot.</li>
+        <li>[] - property binding</li>
+      </ul>
+      <p>1. *ngIf - elágazás, akkor célszerű használni, ha valamit ki szeretnénk dinamikusan iratni vagy sem</p>
+      <p>2. Else ág: else ágat az alábbiak szerint tudunk megadni ngIf-fel:</p>
+      <p>Itt a #noServerrel megjelöljük azt a részt, amit meg szeretnénk adni az else ágban.</p>
+      <p>3. [ngStyle] - dinamikusan tudunk stílust megadni, a CSS propertyket camelCaseként kell megadni</p>
+      <p>A CSS propertyket megadhatjuk camelCase-szel vagy idézőjelek között is.</p>
+      <p>4. [ngClass] = CSS osztályok dinamikus hozzáadása és elvétele</p>
+      <p>5. *ngFor - listák kiíratása</p>
+      <p>Általánosan: var/let/const + egy random név + of + a tömbünk.</p>
+      <p>Toggling: (click)="showSecret = !showSecret"</p>
+    </div>
+
+    <div id="kiegeszitesek-alapok">
+      <h2>Alapok - kiegészítések</h2>
+      <p>&ltkomponens&gt.model.ts -> osztályok létrehozására szolgál</p>
+    </div>
+
+    <div id="course-project-alapok">
+      <h2>Alapok - Course Project rövid összefoglaló</h2>
+      <ol>
+        <li>Tervezzük meg az applikációt, gondoljuk át, hogy milyen feature-öket, komponenseket és modelleket szeretnénk használni. Ezeket a későbbiekben is lehet módosítani, illetve bővíteni! A modellek alatt azt értjük, amikor valamit gyakran használjuk és a jellemzőik megegyeznek. Vagyis tulajdonképpen létrehozunk egy osztályt modell címszó alatt.</li>
+        <li>Tervezzük meg azt, hogy milyen hiearchiában szerepelnek a komponensek és az alapján hozzuk létre az összes komponenst CLI-val az ng g c {komponens} paranccsal. Ha kell, adjunk meg útvonalat is.</li>
+        <li>Tervezzük meg, hogy az egyes komponensek hogyan helyezkedjenek el a honlapon. Gondoljuk át, hogy minek mekkora helyet kell foglalnia és alakítsuk ki az összes komponens elhelyezkedését. Közben teszteljük azt tesztadatokkal, hogy valóban megfelel-e a várakozásnak az elrendezés.</li>
+        <li>Célszerű a headerrel kezdeni (ha van), mert az az egyik legegyszerűbb. Utána sorban következik a többi komponens. Ne felejtsük el, hogy ahhoz, hogy megjelenjen egy komponens a weboldalon, használni kell a komponenshez tartozó taget (pl app-recipes)!</li>
+        <li>Ahol kell, ott hozzunk létre modelleket és azon belül is osztályokat, ehhez az export class kifejezést kell használni. Ezeknél az osztályoknál adjuk meg a jellemzőket típusozva és a constructor() metódusban inicializáljuk az adatokat (ne felejtsük el, hogy this-t kell használni!). Ott, ahol a későbbiekben használjuk az osztályokat, ott be is kell importálni azt, illetve egy tömböt is létre kell hozni, amelynek a típusa az az osztály lesz, amit létrehoztunk (+ []). Új objektumot a new {class}() segítségével tudunk létrehozni, ahol a zárójelen belül annyi értéket kell megadni (a típusoknak megfelelően), ahány jellemzője van az adott osztálynak. Ha nem teljesül, hibaüzenetet kapunk.</li>
+        <li>A komponenseket úgy építsük fel, hogy ahol tömböt használunk és dinamikusan íratnánk ki az adatokat, ott</li>
+        <ul style="list-style: lower-alpha;">
+          <li>megfelelően lehessen használni az *ngFor-t és</li>
+          <li>megfelelő helyre be is tudjuk illeszteni az adatot string interpolationnal vagy property bindinggal. Mivel objektumokat használunk, így az objektum jellemzőjére tudunk hivatkozni.</li>
+        </ul>
+        <li>Általánosan: alakítsuk ki az összes komponenst, amit létrehoztunk, finomhangolni később is lehet. Ami a legfontosabb, hogy a hiearchiára ügyelni kell!</li>
+      </ol>
+    </div>
+
+    <div id="deep-dive">
+      <h2>Components & databinding deep dive</h2>
+      <p>Dokumentáció (input-output): <a href="https://angular.io/guide/inputs-outputs">[Angular]</a></p>
+      <h3>Input</h3>
+      <p>Nagyon fontos, hogy a komponensek propertyjei alapesetben csak az adott komponensben érhetőek el! Ahhoz, hogy egy propertyt elérhessünk a szülő komponensben, a property elé meg kell adni a @Input() decoratort és ezt az Inputot importálni kell a @angular/coreból! A zárójelek közé az aliast kell írni, hogy milyen néven szeretnénk azt a propertyt használni a komponensen kívül. Ebben az esetben a szülő komponenstől áramlik az adat a gyerek komponens felé. <br>
+        Az adatokat property bindinggal tudjuk továbbítani. Például: [number]="oddNumber", ahol number az a property, ami a gyerek komponensben is szerepel.</p>
+      <h3>Output</h3>
+      <p>Ahhoz, hogy egy szülő komponensben végrehajtódjon egy folyamat, például tömbhöz hozzáadás, különböző eventeket kell létrehozni. Ezeket az eventeket hasonló nevű metódusokhoz kapcsoljuk a szülő komponensben, mint ahogy a gyerek komponensben is tettük (pl. (serverCreated)="onServerAdded($event)"). <br>
+        A metódusnál zárójelben egy olyan objektumot kell megadnunk, ami tartalmazza az összes olyan propertyt, amit át szeretnénk venni a gyerek komponenstől. Ezután a gyerek komponensben, az event nevének megfelelő propertyket hozunk létre, melyhez a new EventEmitter&lt&gt értéket rendeljük. Ennek segítségével tud bekövetkezni az az event, amit szeretnénk.
+        A &lt&gt azt az objektumot kell megadni, amit a szülő komponens megfelelő metódusaiban is megadtunk. Ezután az osztály megfelelő metódusain belül meghívjuk az emit metódust méghozzá úgy, hogyha mondjuk az event neve serverCreated, akkor a metóduson belül ezt kell megadni: this.serverCreated.emit({}). Ezután, mivel a gyerek komponensből küldünk adatokat a szülő komponens felé, @Output()-t kell az eventek neve elé írni és ezt is importálni kell a @angular/coreból! Hasonlóan a () belül meg tudunk adni egy aliast.</p>
+      <p>Ez utóbbira példa lépésről lépésre:</p>
+      <ol>
+        <li>A szülő komponensben a gyerek komponenshez tartozó "HTML" tagben adjuk meg az eventet, például ezt: (serverCreated)="onServerAdded($event)". A gyerek komponensben a hasonló nevű metódus az onAddServer nevet viseli.</li>
+        <li>A komponens TS fájljában definiáljuk ezt a metódust és a zárójelben egy olyan objektumot adjunk meg, amilyen értékeket szeretnénk átvenni a gyerek komponenstől. <br>
+          onServerAdded(serverData: {serverName: string, serverContent: string})</li>
+        <li>A gyerek komponensben, az event nevének megfelelően hozzunk létre egy olyan objektumot, amely az Angularos EventEmitter osztály objektuma lesz. <br>
+          serverCreated = new EventEmitter&lt&gt.</li>
+        <li>A &lt&gt közé illesszük a szülő komponensben az eventhez tartozó metódusnál megadott objektumot. <br>
+          &lt{serverName: string, serverContent: string}&gt</li>
+        <li>A gyerek komponensben olyan metódust adjunk meg, aminél az EventEmitter emit metódusát alkalmazzuk. <br>
+          this.serverCreated.emit({serverName: this.newServerName, serverContent: this.newServerContent}) <br>
+          Ahogy látható, a ()-ben az az objektum van, amit a 4. pontban is megadtunk.</li>
+        <li>Tegyünk @Output()-t az event neve elé, ugyanis a gyerek komponensből küldünk adatokat a szülő komponens felé
+          @Output() serverCreated</li>
+      </ol>
+      <p>Összefoglalva: Hozzunk létre custom eventeket a szülő komponensben, amit EventEmitterrel definiálunk a gyerek komponensben. Ez lesz az Output, mivel az adatok a gyerek komponenstől kifelé áramlanak. Ha pedig adatot szeretnénk továbbítani a szülőtől a gyerek felé, akkor hozzunk létre custom propertyt, és ezt a gyerek komponensben Inputtal definiáljuk!</p>
+      <h3>View Encapsulation</h3>
+      <p>Az Angular a különböző komponensekben található elemeket különböző, az adott komponensre jellemző osztályokkal látja el, amelynek segítségével tényleg csak az adott komponens stílusát tudjuk változtatni. Amennyiben ezen változtatni szeretnénk, úgy a @Component-en belül meg kell adni azt, hogy <br>
+        encapsulation: ViewEncapsulation.{valami}. <br>
+        A {valami} lehet:</p>
+      <ul style="list-style: lower-alpha;">
+        <li>Emulated - ez a default</li>
+        <li>None - ekkor kikapcsoljuk a View Encapsulationt az adott komponensre. Ha ezen komponensen belül adunk meg stílust a CSS fájlban, az globálisan minden komponensre használódni fog.</li>
+        <li>ShadowDom</li>
+      </ul>
+      <h3>Local Reference</h3>
+      <p>Local Reference létrehozása: tetszőleges html tagen belül #{név}. A local referencet bárhol lehet használni, de csak a templaten belül, a TS fájlokban nem! <br>
+        A local reference típusa templaten belül Element!</p>
+      <p>Ahhoz, hogy tudjuk használni TS fájlban, úgy a local referencet meg kell adni a komponensosztályban, elé kell írni a @ViewChild() dekorátort.
+        @ViewChild({loc. ref.}, {static: true}) {loc. ref.}
+        Ennek a típusa ElementRef lesz! <strong>Ezt és a ViewChildot is importálni kell a core-ból!</strong></p>
+      <p>Input elemeket értékeit a value metódussal tudjuk felhasználni.</p>
+      <p>Ha valami contentet teszünk a komponenshez tartozó tagek közé, akkor azt tapasztaljuk, hogy a tárolt értékek elvesznek. Hibát nem kapunk, viszont az Angular nem törődik azzal, hogy ilyen tagek között megőrizze a változók értékeit. Ahhoz, hogy ez ne így legyen, úgy a komponenshez tartozó html fájlban meg kell adni az &ltng-content&gt&lt/ng-content&gt tag párokat. Ez is directive, viszont a többivel ellentétben ezt tagként adjuk meg.</p>
     </div>
   </div>
     
