@@ -53,6 +53,11 @@
             <li><a href="#kiegeszitesek-alapok">Alapok - kiegészítések</a></li>
             <li><a href="#course-project-alapok">Alapok - Course Project rövid összefoglaló</a></li>
             <li><a href="#deep-dive">Components & databinding deep dive</a></li>
+            <li><a href="#course-project-komponensek">Komponensek - Course Project rövid összefoglaló</a></li>
+            <li><a href="#directives-deep-dive">Directives deep dive</a></li>
+            <li><a href="#services">Services & Dependency Injection</a></li>
+            <li><a href="#routing">Routing</a></li>
+            <li><a href="#course-project-routing">Routing összefoglaló</a></li>
         </ol>
     </div>
 
@@ -74,12 +79,16 @@
         &ltinput type="text" [(ngModel)]="name"&gt</p>
       <p>Ehhez viszont két dolgot kell megadni: </p>
       <ol>
-        <li>Az app.component.ts fájlban az AppComponentnél definiálni kell a name változót</li>
-        <li>Az app.module.ts-ben importálni kell a FormsModulet, ugyanis az ngModel TS alapú, amit fel kell ismernie az Angularnak: import { FormsModule } from '@angular/forms'</li>
-        <li>Ezután az @NgModule-on belül az importhoz hozzá kell írni a FormsModulet.</li>
+        <li>Az app.component.ts fájlban az AppComponentnél definiálni kell a name változót <br>
+        <img src="../img/angular/Kép1.jpg" alt=""></li>
+        <li>Az app.module.ts-ben importálni kell a FormsModulet, ugyanis az ngModel TS alapú, amit fel kell ismernie az Angularnak: import { FormsModule } from '@angular/forms' <br>
+        <img src="../img/angular/Kép2.jpg" alt=""></li>
+        <li>Ezután az @NgModule-on belül az importhoz hozzá kell írni a FormsModulet. <br>
+        <img src="../img/angular/Kép3.jpg" alt=""></li>
       </ol>
       <p>Projekten belül adjuk hozzá a bootstrapet: npm install --save bootstrap</p>
-      <p>A projekten belül található angular.json-ben keressük meg a stylest. Itt adjuk meg a "src/styles.css" mellett azt, hogy "node_modules/bootstrap/dist/css/bootstrap.min.css"</p>
+      <p>A projekten belül található angular.json-ben keressük meg a stylest. Itt adjuk meg a "src/styles.css" mellett azt, hogy "node_modules/bootstrap/dist/css/bootstrap.min.css" <br>
+        <img src="../img/angular/Kép4.jpg" alt=""></p>
     </div>
 
     <div id="komponensek-alapok">
@@ -202,6 +211,151 @@
         Ennek a típusa ElementRef lesz! <strong>Ezt és a ViewChildot is importálni kell a core-ból!</strong></p>
       <p>Input elemeket értékeit a value metódussal tudjuk felhasználni.</p>
       <p>Ha valami contentet teszünk a komponenshez tartozó tagek közé, akkor azt tapasztaljuk, hogy a tárolt értékek elvesznek. Hibát nem kapunk, viszont az Angular nem törődik azzal, hogy ilyen tagek között megőrizze a változók értékeit. Ahhoz, hogy ez ne így legyen, úgy a komponenshez tartozó html fájlban meg kell adni az &ltng-content&gt&lt/ng-content&gt tag párokat. Ez is directive, viszont a többivel ellentétben ezt tagként adjuk meg.</p>
+    </div>
+
+    <div id="course-project-komponensek">
+      <h2>Komponensek - Course Project rövid összefoglaló</h2>
+      <ol start="8">
+        <li>Ha több szinttel lejjebb található gyerektől szeretnénk adatot begyűjteni, akkor többször kell használni az EventEmittert, hogy feljusson az adat ahhoz a szülő komponenshez, ahová el szeretnénk juttatni az adatot.</li>
+        <li>Ha valami speciális szöveget szeretnénk megjeleníttetni, például kezdetekben, akkor használjuk az ng-template taget.</li>
+      </ol>
+    </div>
+
+    <div id="directives-deep-dive">
+      <h2>Directives deep dive</h2>
+      <p>Ha dinamikusan szeretnénk szerkezetet vagy attribútumot változtatni, akkor használjuk!</p>
+      <p>Attribute directives - úgy viselkednek, mint a HTML attribútumok. Csak azokat a HTML elemeket módosítják, amihez hozzáadjuk őket. Ilyen az ngClass és az ngStyle.</p>
+      <p>Structural directives - úgy néz ki, mint egy HTML attribútum, de van egy csillag a nevük előtt. Ezek a directivek a DOM-ot változtatják. Ilyen az ngIf és az ngFor.</p>
+      <p>Saját directive létrehozása:</p>
+      <ol>
+        <li>Külön mappa egy sokatmondó névvel</li>
+        <li>{név}.directive.ts létrehozása a mappán belül</li>
+        <li>Adjuk meg a @Directive dekorátort, amit importálni kell a @angular/core-ból!</li>
+        <li>A dekorátoron belül a következőket kell megadni:</li>
+        <ul style="list-style-type: lower-alpha;">
+          <li>selector: milyen néven tudjuk elérni a directivet.</li>
+        </ul>
+        <li>Létrehozzuk az osztályt és exportáljuk (export class {név} implements OnInit)</li>
+        <ul style="list-style: lower-alpha;">
+          <li>Az osztályon belülre kell egy constructor, zárójelen belülre azt kell írni, hogy private elementRef: ElementRef (amit importálni kell szintén)</li>
+          <li>Kell egy ngOnInit(), amibe azt kell írni, hogy this.elementRef.nativeElement.style és ezután hogy melyik propertyt szeretnénk változtatni és ennek milyen értéket szeretnénk adni.</li>
+        </ul>
+        <li>Az app.module.ts-ben a declarations-nél meg kell adni a directiveünket (és importáljuk is!), hisz alapesetben az Angular nem szkenneli be az összef fájlt.</li>
+        <li>Ezután az általunk megadott selectort adjuk meg a HTML tagnek attribútumként.</li>
+      </ol>
+      <p>Vagy létrehozhatjuk terminálon keresztül: ng g d {directive-név}. Ekkor az 1-4. illetve a 6. kimarad, viszont tegyük külön mappába a directivet, amit alapból nem tesz meg az Angular terminálos telepítés során. Ebben az esetben az importálás is változik (lásd 6. pont).</p>
+      <p>Ha kicsit fejlettebben szeretnénk megvalósítani, akkor a constructorhoz adjunk hozzá egy private renderert, aminek a típusa Renderer2 lesz (importálni!). Az ngOnInit-en belül meg kell adni azt, hogy this.renderer.setStyle(), és a zárójelen belül három paramétert:</p>
+      <ul style="list-style: lower-alpha;">
+        <li>az elemet, aminek a stílusát módosítanánk (leggyakrabban this.elRef.nativeElement)</li>
+        <li>a CSS propertyt (itt nincs camelCase)</li>
+        <li>a property új értékét</li>
+      </ul>
+      <p>@HostListener dekorátorral különböző eventeket tudunk rendelni a directivehez.</p>
+      <p>Nem csak a rendererrel lehet változtatni a stíluson. A másik módszerhez szükségünk van a @HostBinding dekorátorra <br>
+        @HostBinding({amit változtatni akarunk}) {név} <br>
+        Pl.: @HostBinding('.style.backgroundColor') backgroundColor <br>
+        Ezek után elég azt megadni a HostListenerben, hogy this.backgroundColor = {valami}.</p>
+      <h3>NgSwitch</h3>
+      <p>Egy directive, amit switch-case esetén használunk.</p>
+      <p>A különböző értékekhez *ngSwitchCaset kell megadni, a default értékhez pedig *ngSwitchDefault-ot.</p>
+    </div>
+
+    <div id="services">
+      <h2>Services & Dependency Injection</h2>
+      <p>Akkor használjuk, ha bizonyos osztályokat újra fel szeretnénk használni!</p>
+      <p>Dokumentáció: <a href="https://angular.io/guide/architecture-services">[Angular]</a></p>
+      <p>Service létrehozása általánosan:</p>
+      <ol>
+        <li>Létrehozunk egy valami.service.ts fájlt.</li>
+        <li>Ebben a fájlban létrehozunk egy osztályt, amit exportálunk. Ebben vannak változók és metódusok, amiket később újra lehet használni.</li>
+        <li>Ahol szeretnénk használni a servicet, ott kell providolni (lásd lejjebb a hiearchical injectionnél)</li>
+        <li>Komponensbe úgy tudjuk injektálni a szervert, hogy létrehozunk egy constructort, aminek a paramétere egy private, a service nevével megegyező típusú lesz (amit importálni kell).</li>
+        <li>Ha az adatokat be szeretnénk olvastatni, mert például tömbben tároljuk azokat, akkor szükség van az OnInitre. (... implements OnInit +NgOnInit())</li>
+        <li>Ha servicet szeretnénk másikba injektálni, akkor a metódus ugyanaz, mint a 4. pontban, viszont mindkét servicenél kell az @Injectable() dekorátor, amit importálni kell.</li>
+      </ol>
+      <p>Alább egy példa:</p>
+      <p>Logging service létrehozása - egy eszköz, amivel konzolra íratást tudunk megvalósítani.</p>
+      <ol>
+        <li>Az app mappán belül logging.service.ts.</li>
+        <li>Létrehozni és exportálni egy osztályt, a név mindegy (de a legjobb a Logging Service)</li>
+        <li>Osztályon belül egy metódus létrehozása, ami a konzolon megjelenítendő szöveget tartalmazza.</li>
+        <li>Azon a komponensen belül, ahol szeretnénk használni a Logging Service-t:</li>
+        <ul style="list-style: lower-alpha;">
+          <li>A @Componenthez hozzá kell adni azt, hogy providers: [LoggingService]</li>
+          <li>Létre kell hozni egy constructort: constructor(private loggingService: LoggingService) {}</li>
+          <li>És a megfelelő helyen meg kell hívni a konzolra kiíratást: this.loggingService.logStatusChange(accountStatus);</li>
+        </ul>
+      </ol>
+      <p>A Data servicet hasonlóan hozzuk létre. Ott az osztályban a kezdeti adatokat és az osztályhoz tartozó metódusokat adjuk meg.</p>
+      <p>Hierarchical injection:</p>
+      <ol>
+        <li>AppModule - ha az appModuleban providoljuk a servicet, akkor az egész appon belül elérhető lesz a service ugyanazon változata</li>
+        <li>AppComponent - ha az appComponentben providoljuk a servicet, akkor az összes komponensben elérhető lesz a service ugyanazon változata</li>
+        <li>Bármely más komponens - ha bármely más komponensben providoljuk a servicet, akkor az adott komponensben és a gyerek komponenseiben lesz elérhető a service ugyanazon változata</li>
+      </ol>
+      <p>Tehát: <br>
+        A logging servicet csak a gyerek komponensekben providoltuk, így ezek egymástól függetlenül mennek -> nem lesz bug <br>
+        A data servicet viszont az AppComponentben providoltuk, éppen ezért, ha a két másik komponensben is providoljuk, akkor hibát kapunk -> tehát elég csak az AppComponentben providolni a servicet, mert ugyanazt a változatát használjuk a servicenek a gyerek komponensekben is.</p>
+      <p>Ha több servicet szeretnénk egymásba építeni, akkor minden servicenél meg kell adni az @Injectable() dekorátort.</p>
+    </div>
+
+    <div id="routing">
+      <h2>Routing</h2>
+      <p>A weboldalunkat különböző útvonalakkal tudjuk bővíteni, amik más-más komponenst jelenítenek meg anélkül, hogy az adott oldalt frissítené/újratöltené.</p>
+      <p>Routing létrehozása:</p>
+      <ol>
+        <li>app.module.ts-ben egy konstanst létre kell hozni appRoutes néven, aminek típusa Routes, amit importálni kell az @angular/routerről.</li>
+        <li>Ez az appRoutes egy tömb és objektumokat tartalmaz, amiknek 2 paramétert kell megadni:</li>
+        <ul style="list-style: lower-alpha;">
+          <li>path: az útvonal, amivel elérjük az adott részt (/ nélkül)</li>
+          <li>component: amelyik komponensnek meg kell jelennie, ha azt az útvonalat adjuk meg</li>
+        </ul>
+        <li>Importsnál megadni: RouterModule.forRoot(appRoutes) -> RouterModule-t importálni</li>
+        <li>router-outlet directive megadása a komponens html fájlában oda, ahol szeretnénk, hogy a komponensek betöltődjenek.</li>
+        <li>Az anchor tagek href-je automatikusan újrafrissíti az oldalt, ami az adatok elvesztéséhez vezet. Ennek elkerülésére használjuk az Angular routerLink attribútumát, ami ugyanúgy működik, mint a href, csak nem tölti be újra az oldalt.</li>
+      </ol>
+      <p>Relative path: amikor az útvonalat / nélkül adjuk meg. Ilyenkor az Angular megpróbálja kiegészíteni az útvonalat az általunk megadottakkal. Ami gyakran errorhoz vezethet. <br>
+        Absolute path: amikor az útvonalat /-rel adjuk meg. Ilyenkor az alapútvonalat egészíti ki az általunk megadottakkal.</p>
+      <p>Ha az útvonalban azt adjuk meg, hogy "../valami", akkor egy szinttel feljebb lépünk.</p>
+      <p>Aktív routerLinkhez osztály hozzáadás: routerLinkActive="valami". <br>
+        De ezzel vigyázni kell. Mert minden olyan tagre alkalmazza az osztályt, ami részben vagy teljesen szerepel az adott útvonalban. Tehát pl. a homepage mindig megkapja az osztályt, mert a homepage útvonala részben megegyezik bármelyik komponens útvonalával. <br>
+        Ahhoz, hogy ezt elkerüljük, meg kell adni még a [routerLinkActiveOptions] property bindingot, amelynek értéke egy objektum lesz, amivel például ki tudjuk azt fejezni, hogy a teljes útvonalat vegye csak-e figyelembe az osztály hozzáadásakor, vagy csak a részútvonalat. (Ha exact: true, akkor a teljes útvonalat veszi figyelembe). <br>
+        [routerLinkActiveOptions]="{exact: true}"
+        </p>
+      <p>Ahhoz, hogy egy gombra rányomva egy adott "oldalra" jussunk, létre kell hozni egy gombot, amihez hozzárendelünk egy eventet. A komponensnél a constructorba beinjektáljuk a routert (private router: Router), majd az eventhez tartozó metódushoz a következőt adjuk meg:  this.router.navigate(['/servers']); (ahol a /servers egy absolute path és természetesen a servers módosítható). <br>
+        Ha relative pathot adunk meg, akkor érdemes tudni: maga a navigate nem tudja, hogy épp hol állunk a weboldalon, így ha relative pathot adunk meg, akkor automatikusan a rootot egészíti ki az általunk megadott útvonallal. Ezt elkerülve meg kell adni egy JS objektumot, aminek az egyik paramétere relativeTo és aminek értéke this.route. Ehhez injektáljunk egy routeot, aminek típusa ActivatedRoute lesz (ami tudja azt, hogy épp hol állunk a weboldalon belül) és amit szintén importálni kell a @angular/routerből.</p>
+      <p>Útvonalakat dinamikusan úgyis tudunk megadni, ha az útvonalakat bizonyos paraméterekkel bővítünk. Ehhez :-ot kell használni, például: path: 'users/:id', component: UserComponent. <br>
+        De hogyan tudjuk a megfelelő komponenst elérni?</p>
+      <ol>
+        <li>A megfelelő komponens constructorába injektáljuk be a route-ot, ami ActivatedRoute típusú.</li>
+        <li>this.route.snapshot.params['id'] segítségével tudunk paramétert kinyerni az URL-ből. A [] közé olyan értéket adjunk, amilyen nevet adtunk a paraméternek az útvonalmegadásánál az app.module.ts-ben!</li>
+      </ol>
+      <p>Arra kell figyelni, hogyha mondjuk updateljük az URL-t routerLinkkel, viszont nem hagyjuk el azt a komponenst, akkor az adatok nem fognak frissülni, ugyanis ezt az Angular érzékeli és nem érti, miért kell frissítenie az adatokat, ha nem hagyjuk el az adott komponenst.</p>
+      <p>Az adatok frissítéséhez ezt kell megadni az ngOnInit()-en belül:</p>
+      <p>(Természetesen a megfelelő paraméterek megadásával).</p>
+      <p>Mivel a subscribe az app bezárása után is megmarad a memóriában, így az OnDestroy segítségével "el kell pusztítani", miután bezártuk az appot.</p>
+      <p>Ezt kell megadni a komponens fájlban akkor is, amikor dinamikusan szeretnénk url-t csatolni az anchor taghez!</p>
+      <p>Anchor tagen belül: <br>
+        [queryParams]={} - ? az URL-ben <br>
+        fragment="" - # az URL-ben <br>
+        A navigate metóduson belül pedig: this.router.navigate(['/servers', id, 'edit'], {queryParams: {allowEdit: '1'}, fragment: "loading"});</p>
+      <p>Ha azt szeretnénk, hogy több komponens is megjelenjen az oldalon, akkor beágyazott linkeket kell létrehozni az app.module.ts-ben, amit úgy tehetünk meg, hogy ahhoz az útvonalhoz (ami több komponens része) tartozó JS objektumot kibővítjük egy children propertyvel, ide tömbösítve megadjuk az abból kiinduló útvonalakat. Viszont kezdetben a router-outletet csak az app html-jében adtuk meg, ami csak az app utáni követező szinten lévő linkeket ismeri fel. Tehát, hogy ne kapjunk errort, az összes olyan komponens HTML-jéhez hozzá kell adni a router-outletet, amihez hozzáadtunk gyerekútvonalakat.</p>
+      <p>Ahhoz hogy a query parametereket megtartsuk, hozzá kell adni a navigate metódus JS objektumához a queryParamsHandling propertyt. Két értéket lehet neki adni: a merget és a preservet. Ha meg szeretnénk tartani a query paramétereket, a preserve értéket kell megadni. <br>
+        this.router.navigate(['edit'], {relativeTo: this.route, queryParamsHandling: 'preserve'});</p>
+      <p>Wildcard route: '**'. Célszerű csinálni egy page not found komponenst, arra írni egy útvonalat és a wildcard routeot átirányítani arra a komponensre és útvonalra, ami a hibás oldalért felel.</p>
+      <p>Célszerű a routingot új moduleba kimenteni (pl. app-routing.module.ts), hogy könnyebben olvashatóbbak legyenek a kódok. A module ugyanúgy néz ki, mint a gyári app.module.ts, arra kell figyelni, hogy az NgModuleon belül ezeket adjuk meg:</p>
+      <p>A komponenseket nem kell importálni, azokat már megtettük a fő moduleban. <br>
+        Az app.module.ts-ben az imports-on belül adjuk meg a moduleunk nevét, ahogy az export classnál elneveztük.</p>
+      <h3>Guarding</h3>
+      <p>CanActivate dokumentáció: <a href="https://angular.io/api/router/CanActivate">[Angular]</a></p>
+      <p>Beállíthatjuk, hogy a weboldal mely komponenseit lehet elérni és melyiket nem, illetve ehhez tudunk feltételeket szabni. Ehhez két service kell: AuthService és AuthGuard. Az AuthGuardhoz implementálni kell a CanActivate interfacet. Majd ezt kell megadni:</p>
+      <p>Ezt a guardot hozzá kell adni az útvonalhoz tartozó JS objektumhoz: canActivate: [AuthGuard], illetve mindkét servicet hozzá kell adni az app.module.ts-ben. <br>
+        Ha az útvonal gyerekét szeretnénk védeni, akkor a canActivateChild propertyt kell megadni. <br>
+        Statikus szöveg útvonalhoz megadása: data: {message: ""}</p>
+    </div>
+
+    <div id="course-project-routing">
+      <h2>Routing összefoglaló</h2>
     </div>
   </div>
     
