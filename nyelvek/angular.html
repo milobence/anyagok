@@ -98,7 +98,16 @@
         <li>Ezek az app.moduleban található bootstrap: [AppComponent] segítségével kiolvasásra kerülnek, amit később az Angular már tud értelmezni.</li>
         <li>Az értelmezéshez importálni kell az AppModule-t a main.ts fájlban.</li>
         <li>Így, az index.html-ben található app-root tag is értelmezésre kerül, holott ez nem egy standard HTML tag. <br>
-        [kép]</li>
+        <img src="../img/angular/Kép5.jpg" alt=""></li>
+      </ol>
+      <p>A komponensek célja az, hogy a weboldalunkat több különböző komponensre bontsuk szét, amelyek önálló templatetel rendelkeznek. Ezáltal a különböző komponensek újrafelhasználhatóak lehetnek, valamint mivel külön templatetel rendelkeznek, így sokkal átláthatóbbá tudjuk tenni a projektet, ami, különösen a komplex weboldalak esetén, igencsak fontos!</p>
+      <h3>Komponensek készítése (manuálisan):</h3>
+      <ol>
+        <li>Készítsünk egy új mappát az app mappán belül. Azért az app mappán belül, mert egy Angular projektben a lényegi információk az app mappában találhatóak.</li>
+        <li>A mappát célszerű úgy elnevezni, mint a komponenst.</li>
+        <li>Hozzuk létre a mappán belül a {komponens név}.component.ts fájlt.</li>
+        <li>A TS fájlban adjuk meg ezt, természetesen a megfelelő komponensnév felhasználásával: <br>
+          <img src="../img/angular/Kép6.jpg" alt=""></li>
         <li>Az app.module.ts fájlban adjuk hozzá a declarations-höz az új componensünket, amit feljebb megadtunk. Ahhoz, hogy ez valid legyen, importálni kell az osztályt: import { ServerComponent } from './server/server.component';</li>
       </ol>
       <p>CLI-jal komponens generálása: ng generate component {komponens neve} vagy ng g c {komponens neve}</p>
@@ -113,18 +122,28 @@
       <h2>Alapok - Databinding</h2>
       <h3>1. String interpolation</h3>
       <p>Adjuk meg export class ...Componentnél azokat a komponenseket, amiket dinamikusan szeretnénk kiíratni.</p>
-      <p>Ezután a html fájlban {{ }} között adjuk meg a komponens nevét.</p>
+      <p>Ezután a html fájlban {{ }} között adjuk meg a komponens nevét. <br>
+        <img src="../img/angular/Kép7.jpg" alt=""></p>
       <p>Vagy a {{ }} jelek közé megadhatunk stringet is akár. A lényeg, hogy különböző blokkokat, mint pl elágazás, nem adhatunk meg!</p>
-      <p>De akár definiálhatunk metódust is az osztályon belül, amit fel tudunk használni dinamikusan.</p>
+      <p>De akár definiálhatunk metódust is az osztályon belül, <br>
+        <img src="../img/angular/Kép8.jpg" alt=""> <br>
+        amit fel tudunk használni dinamikusan: <br>
+        <img src="../img/angular/Kép9.jpg" alt=""></p>
       <h3>2. Property binding</h3>
-      <p>Különböző HTML elemek propertyjét tudjuk dinamikusan változtatni vele, mint például a button disabled propertyjét. Ehhez az angular OnInit könyvtárát kell importálni és használni. A propertyket, amikre szeretnénk hatással lenni, [] közé kell tenni és értéket kell neki adni "" közé, ami lehet változónév vagy konkrét érték.</p>
+      <p>Különböző HTML elemek propertyjét tudjuk dinamikusan változtatni vele, mint például a button disabled propertyjét. Ehhez az angular OnInit könyvtárát kell importálni és használni. A propertyket, amikre szeretnénk hatással lenni, [] közé kell tenni és értéket kell neki adni "" közé, ami lehet változónév vagy konkrét érték. <br>
+        <img src="../img/angular/Kép10.jpg" alt=""></p>
       <p>Használjunk string interpolationt, ha az outputot szeretnénk dinamikusan változtatni és property bindingot, ha HTML elemek propertyjét szeretnénk.</p>
       <h3>3. Event listener</h3>
-      <p>Normál esetben, ha azt szeretnénk, hogy kattintásra történjen valami, akkor az onclick-et kell megadni. Angularban viszont ennél egyszerűbb módszert tudunk használni: ({event}) = "{metódus/függvény}".</p>
-      <p>$event - akkor kell, ha szeretnénk megkapni azokat az adatokat, amik az event során keletkeznek vagy változnak.</p>
+      <p>Normál esetben, ha azt szeretnénk, hogy kattintásra történjen valami, akkor az onclick-et kell megadni. Angularban viszont ennél egyszerűbb módszert tudunk használni: ({event}) = "{metódus/függvény}". <br>
+        <img src="../img/angular/Kép11.jpg" alt=""> <br>
+        <img src="../img/angular/Kép12.jpg" alt=""> <br></p>
+      <p>$event - akkor kell, ha szeretnénk megkapni azokat az adatokat, amik az event során keletkeznek vagy változnak. <br>
+        <img src="../img/angular/Kép13.jpg" alt=""></p>
       <h3>4. Two-way binding</h3>
       <p>A two-way binding esetében a komponensek a különböző evenetek hatására dinamikusan változtatják meg értékeiket. Ehhez kell használni a fent említett [(ngModel)]-t. <br>
-        A lényegi különbség a two-way binding és az event listener között az, hogyha az event listenernél történik értékváltoztatás, akkor a two-way binding is képes átvenni az adott értéket, viszont ez fordítva nem igaz: ha például olyan input mezőben változtatunk meg értéket, ahol two-way binding van, akkor az event listener mezőjében nem lesz semmilyen változás.</p>
+        A lényegi különbség a two-way binding és az event listener között az, hogyha az event listenernél történik értékváltoztatás, akkor a two-way binding is képes átvenni az adott értéket, viszont ez fordítva nem igaz: ha például olyan input mezőben változtatunk meg értéket, ahol two-way binding van, akkor az event listener mezőjében nem lesz semmilyen változás. <br>
+        <img src="../img/angular/Kép14.jpg" alt=""></p>
+      <p>A használatához ne felejtsük el az app.module.ts fájlban megadni a FormsModule-t. Bővebben lásd: <a href="#bevezetes">bevezetés</a>.</p>
     </div>
 
     <div id="directives-alapok">
@@ -135,13 +154,18 @@
         <li>* - struktúrális directive - módosítja a DOM-ot.</li>
         <li>[] - property binding</li>
       </ul>
-      <p>1. *ngIf - elágazás, akkor célszerű használni, ha valamit ki szeretnénk dinamikusan iratni vagy sem</p>
-      <p>2. Else ág: else ágat az alábbiak szerint tudunk megadni ngIf-fel:</p>
+      <p>1. *ngIf - elágazás, akkor célszerű használni, ha valamit ki szeretnénk dinamikusan iratni vagy sem <br>
+        <img src="../img/angular/Kép15.jpg" alt=""></p>
+      <p>2. Else ág: else ágat az alábbiak szerint tudunk megadni ngIf-fel: <br>
+        <img src="../img/angular/Kép16.jpg" alt=""></p>
       <p>Itt a #noServerrel megjelöljük azt a részt, amit meg szeretnénk adni az else ágban.</p>
-      <p>3. [ngStyle] - dinamikusan tudunk stílust megadni, a CSS propertyket camelCaseként kell megadni</p>
+      <p>3. [ngStyle] - dinamikusan tudunk stílust megadni, a CSS propertyket camelCaseként kell megadni <br>
+        <img src="../img/angular/Kép17.jpg" alt=""></p>
       <p>A CSS propertyket megadhatjuk camelCase-szel vagy idézőjelek között is.</p>
-      <p>4. [ngClass] = CSS osztályok dinamikus hozzáadása és elvétele</p>
-      <p>5. *ngFor - listák kiíratása</p>
+      <p>4. [ngClass] = CSS osztályok dinamikus hozzáadása és elvétele <br>
+        <img src="../img/angular/Kép18.jpg" alt=""></p>
+      <p>5. *ngFor - listák kiíratása <br>
+        <img src="../img/angular/Kép19.jpg" alt=""></p>
       <p>Általánosan: var/let/const + egy random név + of + a tömbünk.</p>
       <p>Toggling: (click)="showSecret = !showSecret"</p>
     </div>
@@ -173,11 +197,15 @@
       <p>Dokumentáció (input-output): <a href="https://angular.io/guide/inputs-outputs">[Angular]</a></p>
       <h3>Input</h3>
       <p>Nagyon fontos, hogy a komponensek propertyjei alapesetben csak az adott komponensben érhetőek el! Ahhoz, hogy egy propertyt elérhessünk a szülő komponensben, a property elé meg kell adni a @Input() decoratort és ezt az Inputot importálni kell a @angular/coreból! A zárójelek közé az aliast kell írni, hogy milyen néven szeretnénk azt a propertyt használni a komponensen kívül. Ebben az esetben a szülő komponenstől áramlik az adat a gyerek komponens felé. <br>
+        <img src="../img/angular/Kép20.jpg" alt=""> <br>
         Az adatokat property bindinggal tudjuk továbbítani. Például: [number]="oddNumber", ahol number az a property, ami a gyerek komponensben is szerepel.</p>
       <h3>Output</h3>
       <p>Ahhoz, hogy egy szülő komponensben végrehajtódjon egy folyamat, például tömbhöz hozzáadás, különböző eventeket kell létrehozni. Ezeket az eventeket hasonló nevű metódusokhoz kapcsoljuk a szülő komponensben, mint ahogy a gyerek komponensben is tettük (pl. (serverCreated)="onServerAdded($event)"). <br>
-        A metódusnál zárójelben egy olyan objektumot kell megadnunk, ami tartalmazza az összes olyan propertyt, amit át szeretnénk venni a gyerek komponenstől. Ezután a gyerek komponensben, az event nevének megfelelő propertyket hozunk létre, melyhez a new EventEmitter&lt&gt értéket rendeljük. Ennek segítségével tud bekövetkezni az az event, amit szeretnénk.
-        A &lt&gt azt az objektumot kell megadni, amit a szülő komponens megfelelő metódusaiban is megadtunk. Ezután az osztály megfelelő metódusain belül meghívjuk az emit metódust méghozzá úgy, hogyha mondjuk az event neve serverCreated, akkor a metóduson belül ezt kell megadni: this.serverCreated.emit({}). Ezután, mivel a gyerek komponensből küldünk adatokat a szülő komponens felé, @Output()-t kell az eventek neve elé írni és ezt is importálni kell a @angular/coreból! Hasonlóan a () belül meg tudunk adni egy aliast.</p>
+        A metódusnál zárójelben egy olyan objektumot kell megadnunk, ami tartalmazza az összes olyan propertyt, amit át szeretnénk venni a gyerek komponenstől. Ezután a gyerek komponensben, az event nevének megfelelő propertyket hozunk létre, melyhez a new EventEmitter&lt&gt értéket rendeljük. Ennek segítségével tud bekövetkezni az az event, amit szeretnénk. <br>
+        A &lt&gt-n belül azt az objektumot kell megadni, amit a szülő komponens megfelelő metódusaiban is megadtunk. <br>
+        <img src="../img/angular/Kép21.jpg" alt=""> <br>
+        Ezután az osztály megfelelő metódusain belül meghívjuk az emit metódust méghozzá úgy, hogyha mondjuk az event neve serverCreated, akkor a metóduson belül ezt kell megadni: this.serverCreated.emit({}). Ezután, mivel a gyerek komponensből küldünk adatokat a szülő komponens felé, @Output()-t kell az eventek neve elé írni és ezt is importálni kell a @angular/coreból! Hasonlóan a () belül meg tudunk adni egy aliast. <br>
+        <img src="../img/angular/Kép22.jpg" alt=""></p>
       <p>Ez utóbbira példa lépésről lépésre:</p>
       <ol>
         <li>A szülő komponensben a gyerek komponenshez tartozó "HTML" tagben adjuk meg az eventet, például ezt: (serverCreated)="onServerAdded($event)". A gyerek komponensben a hasonló nevű metódus az onAddServer nevet viseli.</li>
@@ -203,13 +231,18 @@
         <li>None - ekkor kikapcsoljuk a View Encapsulationt az adott komponensre. Ha ezen komponensen belül adunk meg stílust a CSS fájlban, az globálisan minden komponensre használódni fog.</li>
         <li>ShadowDom</li>
       </ul>
+      <p>Dokumentáció: <a href="https://angular.io/guide/view-encapsulation">[Angular]</a></p>
       <h3>Local Reference</h3>
-      <p>Local Reference létrehozása: tetszőleges html tagen belül #{név}. A local referencet bárhol lehet használni, de csak a templaten belül, a TS fájlokban nem! <br>
+      <p>Local Reference létrehozása: tetszőleges html tagen belül #{név}. <br>
+        <img src="../img/angular/Kép23.jpg" alt=""> <br> 
+        A local referencet bárhol lehet használni, de csak a templaten belül, a TS fájlokban nem! <br>
         A local reference típusa templaten belül Element!</p>
       <p>Ahhoz, hogy tudjuk használni TS fájlban, úgy a local referencet meg kell adni a komponensosztályban, elé kell írni a @ViewChild() dekorátort.
-        @ViewChild({loc. ref.}, {static: true}) {loc. ref.}
+        @ViewChild({loc. ref.}, {static: true}) {loc. ref.} <br>
+        <img src="../img/angular/Kép24.jpg" alt=""> <br>
         Ennek a típusa ElementRef lesz! <strong>Ezt és a ViewChildot is importálni kell a core-ból!</strong></p>
-      <p>Input elemeket értékeit a value metódussal tudjuk felhasználni.</p>
+      <p>Input elemek értékeit a value metódussal tudjuk felhasználni. <br>
+        <img src="../img/angular/Kép25.jpg" alt=""></p>
       <p>Ha valami contentet teszünk a komponenshez tartozó tagek közé, akkor azt tapasztaljuk, hogy a tárolt értékek elvesznek. Hibát nem kapunk, viszont az Angular nem törődik azzal, hogy ilyen tagek között megőrizze a változók értékeit. Ahhoz, hogy ez ne így legyen, úgy a komponenshez tartozó html fájlban meg kell adni az &ltng-content&gt&lt/ng-content&gt tag párokat. Ez is directive, viszont a többivel ellentétben ezt tagként adjuk meg.</p>
     </div>
 
@@ -229,12 +262,14 @@
       <p>Saját directive létrehozása:</p>
       <ol>
         <li>Külön mappa egy sokatmondó névvel</li>
-        <li>{név}.directive.ts létrehozása a mappán belül</li>
+        <li>{név}.directive.ts létrehozása a mappán belül <br>
+        <img src="../img/angular/Kép26.jpg" alt=""></li>
         <li>Adjuk meg a @Directive dekorátort, amit importálni kell a @angular/core-ból!</li>
         <li>A dekorátoron belül a következőket kell megadni:</li>
         <ul style="list-style-type: lower-alpha;">
           <li>selector: milyen néven tudjuk elérni a directivet.</li>
         </ul>
+        <img src="../img/angular/Kép27.jpg" alt="">
         <li>Létrehozzuk az osztályt és exportáljuk (export class {név} implements OnInit)</li>
         <ul style="list-style: lower-alpha;">
           <li>Az osztályon belülre kell egy constructor, zárójelen belülre azt kell írni, hogy private elementRef: ElementRef (amit importálni kell szintén)</li>
@@ -250,14 +285,17 @@
         <li>a CSS propertyt (itt nincs camelCase)</li>
         <li>a property új értékét</li>
       </ul>
-      <p>@HostListener dekorátorral különböző eventeket tudunk rendelni a directivehez.</p>
+      <p>@HostListener dekorátorral különböző eventeket tudunk rendelni a directivehez. <br>
+      <img src="../img/angular/Kép28.jpg" alt=""></p>
       <p>Nem csak a rendererrel lehet változtatni a stíluson. A másik módszerhez szükségünk van a @HostBinding dekorátorra <br>
         @HostBinding({amit változtatni akarunk}) {név} <br>
         Pl.: @HostBinding('.style.backgroundColor') backgroundColor <br>
-        Ezek után elég azt megadni a HostListenerben, hogy this.backgroundColor = {valami}.</p>
+        Ezek után elég azt megadni a HostListenerben, hogy this.backgroundColor = {valami}. <br>
+        <img src="../img/angular/Kép29.jpg" alt=""></p>
       <h3>NgSwitch</h3>
       <p>Egy directive, amit switch-case esetén használunk.</p>
-      <p>A különböző értékekhez *ngSwitchCaset kell megadni, a default értékhez pedig *ngSwitchDefault-ot.</p>
+      <p>A különböző értékekhez *ngSwitchCaset kell megadni, a default értékhez pedig *ngSwitchDefault-ot. <br>
+        <img src="../img/angular/Kép30.jpg" alt=""></p>
     </div>
 
     <div id="services">
@@ -268,26 +306,30 @@
       <ol>
         <li>Létrehozunk egy valami.service.ts fájlt.</li>
         <li>Ebben a fájlban létrehozunk egy osztályt, amit exportálunk. Ebben vannak változók és metódusok, amiket később újra lehet használni.</li>
-        <li>Ahol szeretnénk használni a servicet, ott kell providolni (lásd lejjebb a hiearchical injectionnél)</li>
-        <li>Komponensbe úgy tudjuk injektálni a szervert, hogy létrehozunk egy constructort, aminek a paramétere egy private, a service nevével megegyező típusú lesz (amit importálni kell).</li>
+        <li>Ahol szeretnénk használni a servicet, ott kell providolni (lásd lejjebb a <a href="#hierch">hiearchical injectionnél</a>) <br>
+          <img src="../img/angular/Kép31.jpg" alt=""></li>
+        <li>Komponensbe úgy tudjuk injektálni a szervert, hogy létrehozunk egy constructort, aminek a paramétere egy private, a service nevével megegyező típusú lesz (amit importálni kell). <br>
+          <img src="../img/angular/Kép32.jpg" alt=""></li>
         <li>Ha az adatokat be szeretnénk olvastatni, mert például tömbben tároljuk azokat, akkor szükség van az OnInitre. (... implements OnInit +NgOnInit())</li>
-        <li>Ha servicet szeretnénk másikba injektálni, akkor a metódus ugyanaz, mint a 4. pontban, viszont mindkét servicenél kell az @Injectable() dekorátor, amit importálni kell.</li>
+        <li>Ha servicet szeretnénk másikba injektálni, akkor a metódus ugyanaz, mint a 4. pontban, viszont mindkét servicenél kell az @Injectable() dekorátor, amit importálni kell. <br>
+          <img src="../img/angular/Kép33.jpg" alt=""></li>
       </ol>
       <p>Alább egy példa:</p>
       <p>Logging service létrehozása - egy eszköz, amivel konzolra íratást tudunk megvalósítani.</p>
       <ol>
         <li>Az app mappán belül logging.service.ts.</li>
-        <li>Létrehozni és exportálni egy osztályt, a név mindegy (de a legjobb a Logging Service)</li>
+        <li>Létrehozni és exportálni egy osztályt, a név mindegy (de a legjobb a LoggingService)</li>
         <li>Osztályon belül egy metódus létrehozása, ami a konzolon megjelenítendő szöveget tartalmazza.</li>
-        <li>Azon a komponensen belül, ahol szeretnénk használni a Logging Service-t:</li>
+        <li>Azon a komponensen belül, ahol szeretnénk használni a LoggingService-t:</li>
         <ul style="list-style: lower-alpha;">
-          <li>A @Componenthez hozzá kell adni azt, hogy providers: [LoggingService]</li>
+          <li>A @Componenthez hozzá kell adni azt, hogy providers: [LoggingService] <br>
+            <img src="../img/angular/Kép34.jpg" alt=""></li>
           <li>Létre kell hozni egy constructort: constructor(private loggingService: LoggingService) {}</li>
           <li>És a megfelelő helyen meg kell hívni a konzolra kiíratást: this.loggingService.logStatusChange(accountStatus);</li>
         </ul>
       </ol>
       <p>A Data servicet hasonlóan hozzuk létre. Ott az osztályban a kezdeti adatokat és az osztályhoz tartozó metódusokat adjuk meg.</p>
-      <p>Hierarchical injection:</p>
+      <h3 id="hierch">Hierarchical injection</h3>
       <ol>
         <li>AppModule - ha az appModuleban providoljuk a servicet, akkor az egész appon belül elérhető lesz a service ugyanazon változata</li>
         <li>AppComponent - ha az appComponentben providoljuk a servicet, akkor az összes komponensben elérhető lesz a service ugyanazon változata</li>
